@@ -2,8 +2,9 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7f7f3">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Lista de Compras GTA</title>
   <style>
     :root {
@@ -14,6 +15,7 @@
       --line: #dde3df;
       --brand: #176b4d;
       --brand-dark: #0d5038;
+      --footer-green: #114132;
       --brand-soft: #e4f3ec;
       --accent: #f3be4b;
       --shadow: 0 18px 45px rgba(24, 53, 45, 0.1);
@@ -21,6 +23,12 @@
     }
 
     * { box-sizing: border-box; }
+
+    html {
+      min-height: 100%;
+      background: linear-gradient(to bottom, var(--canvas) 0 50%, var(--footer-green) 50% 100%);
+      color-scheme: light;
+    }
 
     body {
       margin: 0;
@@ -34,12 +42,34 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      z-index: 12;
+      right: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      top: 0;
+      height: env(safe-area-inset-top);
+      background: var(--canvas);
+    }
+
+    body::after {
+      bottom: 0;
+      height: env(safe-area-inset-bottom);
+      background: var(--footer-green);
+    }
+
     button, input { font: inherit; }
 
     .app {
       width: min(1120px, 100%);
       margin: 0 auto;
-      padding: 28px 16px 190px;
+      padding: calc(28px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) calc(190px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
     }
 
     header {
@@ -393,7 +423,7 @@
       left: 0;
       padding: 12px max(16px, env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
       border-top: 1px solid rgba(255,255,255,.13);
-      background: rgba(17, 65, 50, 0.94);
+      background: var(--footer-green);
       color: #fff;
       box-shadow: 0 -16px 36px rgba(24, 53, 45, 0.18);
       backdrop-filter: blur(16px);
@@ -439,7 +469,7 @@
     }
 
     @media (min-width: 700px) {
-      .app { padding: 54px 28px 142px; }
+      .app { padding: calc(54px + env(safe-area-inset-top)) max(28px, env(safe-area-inset-right)) calc(142px + env(safe-area-inset-bottom)) max(28px, env(safe-area-inset-left)); }
       header { align-items: flex-end; margin-bottom: 42px; }
       .market-filters { margin-right: 0; margin-left: 0; padding-right: 0; padding-left: 0; }
       .shopping-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
