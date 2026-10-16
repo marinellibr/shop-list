@@ -856,6 +856,48 @@
         quantidade: 1,
         preco: 25.90,
         mercado: "Swift"
+      },
+      {
+        foto: "https://images.unsplash.com/photo-1737976685095-833ed51e7fcc?auto=format&fit=crop&w=800&q=82",
+        nome: "Barra de Chocolate 60%+",
+        quantidade: 1,
+        preco: 0,
+        mercado: "N/A"
+      },
+      {
+        foto: "https://images.unsplash.com/photo-1635843086739-624d71f440b3?auto=format&fit=crop&w=800&q=82",
+        nome: "Ovos",
+        quantidade: 1,
+        preco: 0,
+        mercado: "N/A"
+      },
+      {
+        foto: "https://images.unsplash.com/photo-1552592074-ea7a91b851b3?auto=format&fit=crop&w=800&q=82",
+        nome: "Óleo Vegetal",
+        quantidade: 1,
+        preco: 0,
+        mercado: "N/A"
+      },
+      {
+        foto: "https://images.unsplash.com/photo-1753155356326-b98ca99a8e54?auto=format&fit=crop&w=800&q=82",
+        nome: "Leite Condensado em Lata",
+        quantidade: 1,
+        preco: 0,
+        mercado: "N/A"
+      },
+      {
+        foto: "https://images.unsplash.com/photo-1714842981153-ffeaf74e7a1a?auto=format&fit=crop&w=800&q=82",
+        nome: "Farinha de Trigo",
+        quantidade: 1,
+        preco: 0,
+        mercado: "N/A"
+      },
+      {
+        foto: "https://images.unsplash.com/photo-1762305193696-32f96e8d7559?auto=format&fit=crop&w=800&q=82",
+        nome: "Macarrão Cabelo de Anjo",
+        quantidade: 1,
+        preco: 0,
+        mercado: "N/A"
       }
     ];
 
@@ -1042,7 +1084,7 @@
 
         const market = document.createElement("span");
         market.className = "market";
-        market.textContent = product.mercado;
+        market.textContent = product.mercado === "N/A" ? "Sem mercado" : product.mercado;
 
         const name = document.createElement("h2");
         name.className = "product-name";
@@ -1078,7 +1120,7 @@
         price.className = "product-price";
         const unitPrice = document.createElement("span");
         unitPrice.className = "unit-price";
-        unitPrice.textContent = `${currency.format(product.preco)} cada`;
+        unitPrice.textContent = product.preco > 0 ? `${currency.format(product.preco)} cada` : "Preço não informado";
         priceStack.append(price, unitPrice);
         meta.append(priceStack);
         info.append(market, name, meta);
@@ -1110,7 +1152,7 @@
 
         function refreshQuantity() {
           quantity.textContent = product.quantidade;
-          price.textContent = currency.format(product.preco * product.quantidade);
+          price.textContent = product.preco > 0 ? currency.format(product.preco * product.quantidade) : "Sem preço";
           minusButton.disabled = isPurchased || product.quantidade <= 1;
           plusButton.disabled = isPurchased || product.quantidade >= 99;
         }
