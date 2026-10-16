@@ -129,9 +129,11 @@
       gap: 9px;
     }
 
-    .purchased-view-button {
+    .purchased-view-button,
+    .menu-page-button {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 7px;
       min-height: 40px;
       padding: 0 12px;
@@ -143,7 +145,17 @@
       font-size: 0.78rem;
       font-weight: 800;
       white-space: nowrap;
+      text-decoration: none;
     }
+
+    .menu-page-button {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 8px 22px rgba(23, 107, 77, 0.18);
+    }
+
+    .menu-page-button:hover { background: var(--brand-dark); }
 
     .purchased-view-button.active { border-color: var(--brand); background: var(--brand); color: #fff; }
 
@@ -504,6 +516,7 @@
         <p class="subtitle">Toque nos itens que vão para o carrinho.</p>
       </div>
       <div class="header-actions">
+        <a class="menu-page-button" href="cardapio.html">Cardápio</a>
         <button class="purchased-view-button" id="purchasedViewButton" type="button">
           <span id="purchasedViewLabel">Comprados</span>
           <span class="purchased-count" id="purchasedCount">0</span>
