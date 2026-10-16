@@ -100,7 +100,7 @@
 
     .sections {
       display: grid;
-      gap: 18px;
+      gap: 22px;
     }
 
     .panel {
@@ -159,11 +159,89 @@
     .empty-state strong { display: block; margin-bottom: 6px; }
     .empty-state p { max-width: 35ch; margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.5; }
 
+    .calendar-nav {
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr) 46px;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .calendar-arrow {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--surface);
+      color: var(--brand-dark);
+      cursor: pointer;
+      font-size: 1.35rem;
+      font-weight: 800;
+      transition: transform .18s ease, background .18s ease, opacity .18s ease;
+    }
+
+    .calendar-arrow:hover:not(:disabled) { background: var(--brand-soft); transform: translateY(-1px); }
+    .calendar-arrow:disabled { cursor: default; opacity: .3; }
+
+    .current-date { min-width: 0; text-align: center; }
+    .current-date strong { display: block; font-size: clamp(1.35rem, 6vw, 2rem); letter-spacing: -.04em; }
+    .current-date span { display: block; margin-top: 2px; color: var(--muted); font-size: .82rem; font-weight: 700; }
+
+    .date-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(48px, 1fr));
+      gap: 7px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .date-strip::-webkit-scrollbar { display: none; }
+
+    .date-chip {
+      min-width: 48px;
+      padding: 9px 5px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fafbf9;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: .72rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .date-chip span { display: block; margin-top: 2px; color: var(--ink); font-size: .9rem; }
+    .date-chip.active { border-color: var(--brand); background: var(--brand); color: #d7ebe3; }
+    .date-chip.active span { color: #fff; }
+
+    .day-content {
+      min-height: 210px;
+      padding: 6px 0 0;
+    }
+
+    .day-content .empty-state { min-height: 204px; }
+
+    .recipe-list { display: grid; gap: 12px; }
+
+    .recipe-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fafbf9;
+    }
+
+    .recipe-card h3 { margin: 0; font-size: 1rem; }
+    .recipe-card p { margin: 7px 0 0; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+
     @media (min-width: 760px) {
       .app { padding: calc(54px + env(safe-area-inset-top)) max(28px, env(safe-area-inset-right)) calc(70px + env(safe-area-inset-bottom)) max(28px, env(safe-area-inset-left)); }
       header { margin: 42px 0 48px; }
-      .sections { grid-template-columns: 1fr 1fr; }
       .panel { padding: 26px; }
+      .calendar-nav { grid-template-columns: 52px minmax(0, 1fr) 52px; }
+      .calendar-arrow { width: 52px; height: 52px; }
     }
   </style>
 </head>
@@ -180,16 +258,21 @@
     <div class="sections">
       <section class="panel" aria-labelledby="scheduledTitle">
         <div class="panel-heading">
-          <h2 id="scheduledTitle">Pratos com data</h2>
-          <span class="panel-tag">Planejamento</span>
+          <h2 id="scheduledTitle">Calendário</h2>
+          <span class="panel-tag">17/11 — 22/11</span>
         </div>
-        <div class="empty-state">
-          <div>
-            <span class="empty-icon" aria-hidden="true">📅</span>
-            <strong>Nenhuma data adicionada</strong>
-            <p>Os pratos planejados aparecerão aqui em ordem de realização.</p>
+
+        <div class="calendar-nav">
+          <button class="calendar-arrow" id="previousDay" type="button" aria-label="Dia anterior">←</button>
+          <div class="current-date" aria-live="polite">
+            <strong id="currentDate">17 de novembro</strong>
+            <span id="currentWeekday">Terça-feira</span>
           </div>
+          <button class="calendar-arrow" id="nextDay" type="button" aria-label="Próximo dia">→</button>
         </div>
+
+        <nav class="date-strip" id="dateStrip" aria-label="Escolher data"></nav>
+        <div class="day-content" id="dayContent"></div>
       </section>
 
       <section class="panel" aria-labelledby="anytimeTitle">
@@ -197,7 +280,7 @@
           <h2 id="anytimeTitle">Para qualquer momento</h2>
           <span class="panel-tag">Sem data</span>
         </div>
-        <div class="empty-state">
+        <div class="empty-state" id="anytimeContent">
           <div>
             <span class="empty-icon" aria-hidden="true">🍽️</span>
             <strong>Nenhuma receita adicionada</strong>
@@ -207,5 +290,92 @@
       </section>
     </div>
   </main>
+
+  <script>
+    const calendario = [
+      { data: "17/11", dia: "Ter", titulo: "17 de novembro", semana: "Terça-feira", pratos: [] },
+      { data: "18/11", dia: "Qua", titulo: "18 de novembro", semana: "Quarta-feira", pratos: [] },
+      { data: "19/11", dia: "Qui", titulo: "19 de novembro", semana: "Quinta-feira", pratos: [] },
+      { data: "20/11", dia: "Sex", titulo: "20 de novembro", semana: "Sexta-feira", pratos: [] },
+      { data: "21/11", dia: "Sáb", titulo: "21 de novembro", semana: "Sábado", pratos: [] },
+      { data: "22/11", dia: "Dom", titulo: "22 de novembro", semana: "Domingo", pratos: [] }
+    ];
+
+    const receitasLivres = [];
+    let activeDay = 0;
+
+    const previousButton = document.querySelector("#previousDay");
+    const nextButton = document.querySelector("#nextDay");
+    const currentDate = document.querySelector("#currentDate");
+    const currentWeekday = document.querySelector("#currentWeekday");
+    const dateStrip = document.querySelector("#dateStrip");
+    const dayContent = document.querySelector("#dayContent");
+    const anytimeContent = document.querySelector("#anytimeContent");
+
+    function renderDateStrip() {
+      dateStrip.replaceChildren();
+      calendario.forEach((entry, index) => {
+        const button = document.createElement("button");
+        button.className = `date-chip${index === activeDay ? " active" : ""}`;
+        button.type = "button";
+        button.innerHTML = `${entry.dia}<span>${entry.data.slice(0, 2)}</span>`;
+        button.setAttribute("aria-label", entry.titulo);
+        button.setAttribute("aria-current", index === activeDay ? "date" : "false");
+        button.addEventListener("click", () => {
+          activeDay = index;
+          renderCalendar();
+        });
+        dateStrip.append(button);
+      });
+    }
+
+    function renderDayContent(entry) {
+      dayContent.replaceChildren();
+
+      if (!entry.pratos.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.innerHTML = `<div><span class="empty-icon" aria-hidden="true">📅</span><strong>Nenhum prato previsto</strong><p>Os pratos planejados para ${entry.data} aparecerão aqui.</p></div>`;
+        dayContent.append(empty);
+        return;
+      }
+
+      const list = document.createElement("div");
+      list.className = "recipe-list";
+      entry.pratos.forEach(prato => {
+        const card = document.createElement("article");
+        card.className = "recipe-card";
+        card.innerHTML = `<h3>${prato.nome}</h3><p>${prato.descricao || ""}</p>`;
+        list.append(card);
+      });
+      dayContent.append(list);
+    }
+
+    function renderCalendar() {
+      const entry = calendario[activeDay];
+      currentDate.textContent = entry.titulo;
+      currentWeekday.textContent = entry.semana;
+      previousButton.disabled = activeDay === 0;
+      nextButton.disabled = activeDay === calendario.length - 1;
+      renderDateStrip();
+      renderDayContent(entry);
+    }
+
+    previousButton.addEventListener("click", () => {
+      if (activeDay > 0) {
+        activeDay -= 1;
+        renderCalendar();
+      }
+    });
+
+    nextButton.addEventListener("click", () => {
+      if (activeDay < calendario.length - 1) {
+        activeDay += 1;
+        renderCalendar();
+      }
+    });
+
+    renderCalendar();
+  </script>
 </body>
 </html>
