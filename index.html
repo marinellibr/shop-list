@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f3">
+  <title>Lista de Compras GTA</title>
+  <style>
+    :root {
+      --ink: #18352d;
+      --muted: #6b7772;
+      --surface: #ffffff;
+      --canvas: #f7f7f3;
+      --line: #dde3df;
+      --brand: #176b4d;
+      --brand-dark: #0d5038;
+      --brand-soft: #e4f3ec;
+      --accent: #f3be4b;
+      --shadow: 0 18px 45px rgba(24, 53, 45, 0.1);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(243, 190, 75, 0.18), transparent 26rem),
+        var(--canvas);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input { font: inherit; }
+
+    .app {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 28px 16px 190px;
+    }
+
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0 0 9px;
+      color: var(--brand);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 13ch;
+      font-size: clamp(2rem, 9vw, 4.25rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .subtitle {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .count-badge {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      min-width: 54px;
+      height: 54px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--brand);
+      font-weight: 800;
+      box-shadow: 0 8px 24px rgba(24, 53, 45, 0.06);
+    }
+
+    .header-actions {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 9px;
+    }
+
+    .purchased-view-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--brand-dark);
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .purchased-view-button.active { border-color: var(--brand); background: var(--brand); color: #fff; }
+
+    .purchased-count {
+      display: grid;
+      place-items: center;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-size: 0.72rem;
+    }
+
+    .purchased-view-button.active .purchased-count { background: rgba(255, 255, 255, 0.18); color: #fff; }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .toolbar-label {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.035em;
+      text-transform: uppercase;
+    }
+
+    .toolbar-actions { display: flex; align-items: center; gap: 7px; }
+
+    .select-all-button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 9px 13px;
+      background: var(--brand);
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 800;
+      transition: transform 160ms ease, opacity 160ms ease;
+    }
+
+    .select-all-button:hover { transform: translateY(-1px); }
+    .select-all-button:disabled { cursor: default; opacity: 0.45; transform: none; }
+
+    .clear-button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 9px 13px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 800;
+      transition: transform 160ms ease, opacity 160ms ease;
+    }
+
+    .clear-button:hover { transform: translateY(-1px); }
+    .clear-button:disabled { cursor: default; opacity: 0.45; transform: none; }
+
+    .market-filters {
+      display: flex;
+      gap: 8px;
+      margin: 0 -16px 18px;
+      padding: 2px 16px 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x proximity;
+    }
+
+    .market-filters::-webkit-scrollbar { display: none; }
+
+    .filter-pill {
+      flex: 0 0 auto;
+      appearance: none;
+      padding: 10px 15px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 0.84rem;
+      font-weight: 750;
+      scroll-snap-align: start;
+      transition: color 160ms ease, background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .filter-pill:hover { transform: translateY(-1px); border-color: #91aa9f; }
+
+    .filter-pill.active {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 7px 18px rgba(23, 107, 77, 0.2);
+    }
+
+    .shopping-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 28px 68px minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      gap: 8px 10px;
+      align-items: center;
+      min-height: 108px;
+      padding: 14px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 8px 24px rgba(24, 53, 45, 0.055);
+      cursor: pointer;
+      transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease, background 180ms ease;
+    }
+
+    .item:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .item.selected { border-color: #7dbb9f; background: linear-gradient(135deg, #fff, #f0f8f4); }
+    .item.purchased {
+      border-color: #d8dedb;
+      background: #f0f2f0;
+      box-shadow: none;
+      cursor: default;
+      opacity: 0.68;
+    }
+    .item.purchased:hover { transform: none; box-shadow: none; }
+    .item.purchased .product-image { filter: grayscale(0.55); }
+    .item:focus-within { outline: 3px solid rgba(23, 107, 77, 0.17); outline-offset: 2px; }
+
+    .product-image {
+      grid-column: 2;
+      grid-row: 1 / 3;
+      width: 68px;
+      height: 68px;
+      object-fit: cover;
+      border-radius: 16px;
+      background: var(--brand-soft);
+    }
+
+    .product-info { grid-column: 3; grid-row: 1; min-width: 0; }
+
+    .market {
+      display: inline-block;
+      max-width: 100%;
+      margin-bottom: 5px;
+      overflow: hidden;
+      color: var(--brand);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.055em;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .product-name {
+      margin: 0;
+      overflow: hidden;
+      font-size: 1.02rem;
+      line-height: 1.2;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .product-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .quantity-control {
+      grid-column: 3;
+      grid-row: 2;
+      justify-self: end;
+      display: inline-flex;
+      align-items: center;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--canvas);
+    }
+
+    .quantity-button {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--brand-dark);
+      cursor: pointer;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .quantity-button:hover { background: var(--brand-soft); }
+    .quantity-button:disabled { cursor: default; opacity: 0.3; background: transparent; }
+
+    .quantity-value {
+      min-width: 30px;
+      color: var(--ink);
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .price-stack { text-align: left; }
+    .product-price { display: block; color: var(--ink); font-weight: 850; }
+    .unit-price { display: block; margin-top: 1px; font-size: 0.69rem; }
+
+    .return-button {
+      grid-column: 3;
+      grid-row: 2;
+      justify-self: end;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid #b9c8c1;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--brand-dark);
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .return-button:hover { border-color: var(--brand); background: var(--brand-soft); }
+
+    .checkbox {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      appearance: none;
+      width: 26px;
+      height: 26px;
+      margin: 0;
+      border: 2px solid #abb8b2;
+      border-radius: 9px;
+      background: #fff;
+      cursor: pointer;
+      transition: background 150ms ease, border-color 150ms ease;
+    }
+
+    .checkbox:checked {
+      border-color: var(--brand);
+      background: var(--brand);
+    }
+
+    .checkbox:checked::after {
+      content: "";
+      display: block;
+      width: 9px;
+      height: 5px;
+      margin: 7px 0 0 6px;
+      border: solid white;
+      border-width: 0 0 2px 2px;
+      transform: rotate(-45deg);
+    }
+
+    .sticky-total {
+      position: fixed;
+      z-index: 10;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 12px max(16px, env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+      border-top: 1px solid rgba(255,255,255,.13);
+      background: rgba(17, 65, 50, 0.94);
+      color: #fff;
+      box-shadow: 0 -16px 36px rgba(24, 53, 45, 0.18);
+      backdrop-filter: blur(16px);
+    }
+
+    .sticky-total.hidden { display: none; }
+
+    .total-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px 18px;
+      width: min(1088px, 100%);
+      margin: 0 auto;
+    }
+
+    .total-label { display: block; color: #c7dbd3; font-size: 0.76rem; font-weight: 700; }
+    .selected-summary { margin-top: 3px; font-size: 0.9rem; font-weight: 650; }
+    .total-value { color: #fff4d1; font-size: clamp(1.45rem, 7vw, 2rem); font-weight: 850; letter-spacing: -0.045em; white-space: nowrap; }
+
+    .checkout-button {
+      grid-column: 1 / -1;
+      width: 100%;
+      min-height: 46px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--accent);
+      color: #263a32;
+      cursor: pointer;
+      font-weight: 850;
+      transition: filter 160ms ease, transform 160ms ease, opacity 160ms ease;
+    }
+
+    .checkout-button:hover { filter: brightness(1.04); transform: translateY(-1px); }
+    .checkout-button:disabled { cursor: default; opacity: 0.42; filter: grayscale(0.35); transform: none; }
+
+    .empty {
+      padding: 40px 24px;
+      border: 1px dashed #b7c2bd;
+      border-radius: var(--radius);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (min-width: 700px) {
+      .app { padding: 54px 28px 142px; }
+      header { align-items: flex-end; margin-bottom: 42px; }
+      .market-filters { margin-right: 0; margin-left: 0; padding-right: 0; padding-left: 0; }
+      .shopping-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .item { grid-template-columns: 30px 92px minmax(0, 1fr) auto; grid-template-rows: auto; min-height: 128px; padding: 17px; }
+      .checkbox { grid-column: 1; grid-row: 1; }
+      .product-image { grid-column: 2; grid-row: 1; width: 92px; height: 92px; }
+      .product-info { grid-column: 3; grid-row: 1; }
+      .item > .quantity-control { grid-column: 4; grid-row: 1; }
+      .item > .return-button { grid-column: 4; grid-row: 1; }
+      .sticky-total { padding-top: 17px; padding-bottom: calc(17px + env(safe-area-inset-bottom)); }
+      .total-inner { grid-template-columns: minmax(0, 1fr) auto auto; }
+      .checkout-button { grid-column: auto; width: auto; min-width: 190px; padding: 0 22px; }
+    }
+
+    @media (max-width: 480px) {
+      .toolbar { align-items: stretch; flex-direction: column; }
+      .toolbar-actions { width: 100%; }
+      .toolbar-actions button { flex: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <p class="eyebrow"><span aria-hidden="true">●</span> Lista da semana</p>
+        <h1>Compras GTA.</h1>
+        <p class="subtitle">Toque nos itens que vão para o carrinho.</p>
+      </div>
+      <div class="header-actions">
+        <button class="purchased-view-button" id="purchasedViewButton" type="button">
+          <span id="purchasedViewLabel">Comprados</span>
+          <span class="purchased-count" id="purchasedCount">0</span>
+        </button>
+        <div class="count-badge" id="itemCount" aria-label="Quantidade de itens">0</div>
+      </div>
+    </header>
+
+    <section aria-labelledby="listTitle">
+      <div class="toolbar">
+        <span class="toolbar-label" id="listTitle">Seus itens</span>
+        <div class="toolbar-actions">
+          <button class="select-all-button" id="selectAllButton" type="button">Selecionar todos</button>
+          <button class="clear-button" id="clearSelection" type="button" disabled>Limpar seleção</button>
+        </div>
+      </div>
+      <nav class="market-filters" id="marketFilters" aria-label="Filtrar por mercado"></nav>
+      <div class="shopping-list" id="shoppingList"></div>
+    </section>
+  </main>
+
+  <footer class="sticky-total" aria-live="polite">
+    <div class="total-inner">
+      <div>
+        <span class="total-label">Total selecionado</span>
+        <div class="selected-summary" id="selectedSummary">Nenhum item</div>
+      </div>
+      <div class="total-value" id="totalValue">R$ 0,00</div>
+      <button class="checkout-button" id="checkoutButton" type="button" disabled>Finalizar compra</button>
+    </div>
+  </footer>
+
+  <script>
+    /*
+      Edite este array para incluir produtos. O preço é unitário.
+      Mercados permitidos: Mambo, Sam's Club, Oba, Swift ou N/A.
+    */
+    const produtos = [
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/211596-848-848/EAN-7894904230648-CHICKEN-SUPREME-25KG-SEARA.jpg.jpg?v=638822394648700000",
+        nome: "Chicken Supreme Seara 2,5 kg",
+        quantidade: 1,
+        preco: 89.98,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/219319-848-848/9002490283056_1.jpg?v=638997885359930000",
+        nome: "Pack com 4 latas Red Bull Zero Açúcar 250 ml",
+        quantidade: 1,
+        preco: 31.56,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/219465-848-848/7898959253096-Linguica-Toscana-Braganca-3-Kg.jpg?v=639004666283170000",
+        nome: "Linguiça Toscana Bragança 3 kg",
+        quantidade: 1,
+        preco: 67.98,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/172222-848-848/linguicapaioseara370g7894904966172.jpg?v=637811362687800000",
+        nome: "Linguiça Paio Seara 370 g",
+        quantidade: 1,
+        preco: 14.38,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/160533-848-848/MiniBaguetePre-AssadaeCongeladaMembersMarkPacote940g.jpg?v=637469446915100000",
+        nome: "Mini Baguete Member's Mark 940 g",
+        quantidade: 1,
+        preco: 29.98,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/216638-848-848/03248451064104-Milho-Doce-1kg-Daucy.jpg?v=638944888357200000",
+        nome: "Milho Verde Congelado D'aucy 1 kg",
+        quantidade: 1,
+        preco: 23.98,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/190626-848-848/1linguicamistadefumadasadiafininhapacote215g.jpg?v=638279834090100000",
+        nome: "Linguiça Mista Defumada Sadia Fininha 215 g",
+        quantidade: 1,
+        preco: 8.68,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/203362-848-848/7896046583347---FLOCAO-DA-TERRINHA-800G.png?v=638567361005700000",
+        nome: "Flocão Da Terrinha 800 g",
+        quantidade: 1,
+        preco: 6.18,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/164097-848-848/batatabolinhababysuperbatatapacote1kg7898940128037.jpg?v=637575534513670000",
+        nome: "Batata Bolinha Baby 1 kg",
+        quantidade: 1,
+        preco: 4.98,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/207499-848-848/7894900061512---REF-SPRITE-ZERO-2L-SUA.jpg?v=638980685806100000",
+        nome: "Sprite Zero 2 L",
+        quantidade: 1,
+        preco: 9.68,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/219413-848-848/7898337980248%20Pao%20De%20Alho%20Trad%20Baguete%20300g%20Zinho.jpg?v=639003853807570000",
+        nome: "Pão de Alho Tradicional com Queijo 300 g",
+        quantidade: 1,
+        preco: 11.98,
+        mercado: "Sam's Club"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/11526974/File-De-Tilapia-Congelado-Oba-Bem-Querer-400g.webp?v=639229249853800000",
+        nome: "Filé de Tilápia Congelado 400 g",
+        quantidade: 1,
+        preco: 34.99,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/11477503/Cebola-Roxa-Importada.jpg?v=639014034440100000",
+        nome: "Cebola Roxa Importada",
+        quantidade: 1,
+        preco: 2.33,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/5593130/Cebola-Branca-Importada.png?v=638384110718270000",
+        nome: "Cebola Branca Importada",
+        quantidade: 1,
+        preco: 5.69,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/8656746/Pimentao-Vermelho-Extra.png?v=638525982839700000",
+        nome: "Pimentão Vermelho Extra",
+        quantidade: 1,
+        preco: 10.79,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/6092633/Pimentao-Amarelo-Extra.png?v=638444658811430000",
+        nome: "Pimentão Amarelo Extra",
+        quantidade: 1,
+        preco: 8.39,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/4250602/Pepino-Japones-Extra.jpg?v=638144112557070000",
+        nome: "Pepino Japonês Extra",
+        quantidade: 1,
+        preco: 1.99,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/11475765/Manga-Rosa-Kg.jpg?v=638937381437930000",
+        nome: "Manga Rosa",
+        quantidade: 1,
+        preco: 13.49,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/11529022/Limao-Siciliano-Oba.jpg?v=639253398358730000",
+        nome: "Limão Siciliano",
+        quantidade: 1,
+        preco: 3.03,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/11524934/Limao-Tahiti.jpg?v=639199140608000000",
+        nome: "Limão Tahiti",
+        quantidade: 1,
+        preco: 1.89,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/5122529/Coco-Fresco-Ralado.png?v=638304898068700000",
+        nome: "Coco Fresco Ralado",
+        quantidade: 1,
+        preco: 13.98,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/11474226/Bandeja-De-Caju-300-G.jpg?v=638857782405070000",
+        nome: "Caju Fresco em Bandeja 300 g",
+        quantidade: 1,
+        preco: 17.99,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/8446849/Suco-De-Caju-Concentrado-Maguary-500-Ml.jpg?v=638498191068330000",
+        nome: "Suco Concentrado de Caju Maguary 500 ml",
+        quantidade: 1,
+        preco: 6.99,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/4261144/Molho-Tartaro-Alemao-Kuhne-250-G.jpg?v=638144119659300000",
+        nome: "Molho Tártaro Kühne 250 g",
+        quantidade: 1,
+        preco: 24.99,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/11474300/Hortela-Hidroponica-Unidade.jpg?v=638863696781830000",
+        nome: "Hortelã Hidropônica",
+        quantidade: 1,
+        preco: 8.99,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/10446250/Tempero-Ervas-Italianas-Fescas-Em-Pasta-Horta-Temperos-150-G.png?v=638769490866300000",
+        nome: "Tempero de Ervas Italianas Horta 150 g",
+        quantidade: 1,
+        preco: 14.99,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://obahortifruti.vtexassets.com/arquivos/ids/8447733/Extrato-Natural-De-Baunilha-Bombay-30-Ml.jpg?v=638498192016630000",
+        nome: "Extrato de Baunilha Bombay 30 ml",
+        quantidade: 1,
+        preco: 49.99,
+        mercado: "Oba"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/192199/extrato-de-tomate-so-tomante-elefante-300g.jpg?v=638180267842400000",
+        nome: "Extrato de Tomate Elefante 300 g",
+        quantidade: 1,
+        preco: 6.49,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/173727/mistura-flocada-alfa-panko-200g.jpg?v=637883321859800000",
+        nome: "Mistura Flocada Alfa Panko 200 g",
+        quantidade: 1,
+        preco: 16.98,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/225626/_--13-.jpg?v=638718761866300000",
+        nome: "Creme de Leite Fresco Quatá 500 ml",
+        quantidade: 1,
+        preco: 29.98,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/182949/tomate-pelado-paganini-400g.jpg?v=637883977289770000",
+        nome: "Tomate Pelado Paganini 400 g",
+        quantidade: 1,
+        preco: 8.99,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/216722/280638-Suco-de-Laranja-Integral-Momento-Mambo-3L.jpg?v=638578630397730000",
+        nome: "Suco de Laranja Momento Mambo 3 L",
+        quantidade: 1,
+        preco: 29.90,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/231442/259615.jpg.jpg?v=639271534415470000",
+        nome: "Bife Ancho Bassi — peça aprox. 1,3 kg",
+        quantidade: 1,
+        preco: 77.97,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/253245/25355.jpg?v=639185359984700000",
+        nome: "Picanha Bovina 1953 Friboi — peça aprox. 1,1 kg",
+        quantidade: 1,
+        preco: 109.98,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/234623/272419.jpg?v=638877680411670000",
+        nome: "Copa-Lombo Suíno Ancho — aprox. 500 g",
+        quantidade: 1,
+        preco: 16.99,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/231444/134931.jpg.jpg?v=638811934687900000",
+        nome: "Entrecôte Na Brasa Montana — peça aprox. 1,4 kg",
+        quantidade: 1,
+        preco: 78.37,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/231446/134927.jpg.jpg?v=639271541114000000",
+        nome: "Bife de Chorizo Na Brasa Montana — peça aprox. 1,5 kg",
+        quantidade: 1,
+        preco: 89.97,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/180331/247365salame-pepperoni-haciendas-fat-100g.jpg?v=637883939051330000",
+        nome: "Salame Pepperoni Haciendas 100 g",
+        quantidade: 1,
+        preco: 19.98,
+        mercado: "Mambo"
+      },
+      {
+        foto: "https://swiftbr.vteximg.com.br/arquivos/ids/209209/616653-aneis-de-lula_inn.jpg?v=638883746647400000",
+        nome: "Anéis de Lula Swift 400 g",
+        quantidade: 1,
+        preco: 39.90,
+        mercado: "Swift"
+      },
+      {
+        foto: "https://swiftbr.vteximg.com.br/arquivos/ids/218382/622577-morango-congelado_inn.jpg?v=639204918289730000",
+        nome: "Morango Congelado Swift 1,02 kg",
+        quantidade: 1,
+        preco: 14.90,
+        mercado: "Swift"
+      },
+      {
+        foto: "https://swiftbr.vteximg.com.br/arquivos/ids/218081/623201-mandioca-tolete_inn.jpg?v=639198244085400000",
+        nome: "Mandioca Tolete Swift 1,02 kg",
+        quantidade: 1,
+        preco: 13.90,
+        mercado: "Swift"
+      },
+      {
+        foto: "https://swiftbr.vteximg.com.br/arquivos/ids/208551/616504-polenta-palito_rec.jpg?v=638869069882130000",
+        nome: "Polenta Palito Swift 600 g",
+        quantidade: 1,
+        preco: 8.90,
+        mercado: "Swift"
+      },
+      {
+        foto: "https://swiftbr.vteximg.com.br/arquivos/ids/208715/617907-mix-de-frutas-vermelhas_inn.jpg?v=638870702332670000",
+        nome: "Mix de Frutas Vermelhas Swift 300 g",
+        quantidade: 1,
+        preco: 16.90,
+        mercado: "Swift"
+      },
+      {
+        foto: "https://swiftbr.vteximg.com.br/arquivos/ids/213528/617723-carne-moida-suina_inn.jpg?v=639027168403100000",
+        nome: "Carne Moída Suína Swift 500 g",
+        quantidade: 1,
+        preco: 12.90,
+        mercado: "Swift"
+      },
+      {
+        foto: "https://swiftbr.vteximg.com.br/arquivos/ids/212869/616483-carne-moida-paleta_inn.jpg?v=639008914665130000",
+        nome: "Carne Moída de Paleta Swift 500 g",
+        quantidade: 1,
+        preco: 25.90,
+        mercado: "Swift"
+      }
+    ];
+
+    const mercados = ["Todos", "Mambo", "Sam's Club", "Oba", "Swift", "N/A"];
+
+    const listElement = document.querySelector("#shoppingList");
+    const filtersElement = document.querySelector("#marketFilters");
+    const itemCountElement = document.querySelector("#itemCount");
+    const selectedSummaryElement = document.querySelector("#selectedSummary");
+    const totalValueElement = document.querySelector("#totalValue");
+    const selectAllButton = document.querySelector("#selectAllButton");
+    const clearButton = document.querySelector("#clearSelection");
+    const checkoutButton = document.querySelector("#checkoutButton");
+    const purchasedViewButton = document.querySelector("#purchasedViewButton");
+    const purchasedViewLabel = document.querySelector("#purchasedViewLabel");
+    const purchasedCountElement = document.querySelector("#purchasedCount");
+    const listTitleElement = document.querySelector("#listTitle");
+    const footerElement = document.querySelector(".sticky-total");
+    const selectedItems = new Set();
+    const storageKey = "lista-de-compras:itens-finalizados:v1";
+    const quantityStorageKey = "lista-de-compras:quantidades:v1";
+    const productKey = product => `${product.mercado}::${product.nome}`;
+
+    function loadSavedQuantities() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(quantityStorageKey) || "{}");
+        produtos.forEach(product => {
+          const quantity = Number(saved[productKey(product)]);
+          if (Number.isInteger(quantity) && quantity >= 1 && quantity <= 99) {
+            product.quantidade = quantity;
+          }
+        });
+      } catch {
+        /* Mantém as quantidades do array se o armazenamento não estiver disponível. */
+      }
+    }
+
+    function saveQuantities() {
+      try {
+        const quantities = Object.fromEntries(
+          produtos.map(product => [productKey(product), product.quantidade])
+        );
+        localStorage.setItem(quantityStorageKey, JSON.stringify(quantities));
+      } catch {
+        /* A lista continua funcionando mesmo se o navegador bloquear o armazenamento. */
+      }
+    }
+
+    function loadPurchasedItems() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+        return new Set(Array.isArray(saved) ? saved : []);
+      } catch {
+        return new Set();
+      }
+    }
+
+    function savePurchasedItems() {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify([...purchasedItems]));
+      } catch {
+        /* A lista continua funcionando mesmo se o navegador bloquear o armazenamento. */
+      }
+    }
+
+    loadSavedQuantities();
+    const purchasedItems = loadPurchasedItems();
+    let activeMarket = "Todos";
+    let currentView = "shopping";
+
+    const currency = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
+
+    const fallbackImage = (name) => {
+      const initials = name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase() || "?";
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><rect width="240" height="240" rx="42" fill="#e4f3ec"/><circle cx="190" cy="48" r="44" fill="#f3be4b" opacity=".7"/><text x="120" y="139" text-anchor="middle" font-family="Arial,sans-serif" font-size="66" font-weight="700" fill="#176b4d">${initials}</text></svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    };
+
+    function updateTotal() {
+      const total = produtos.reduce((sum, product, index) => {
+        return selectedItems.has(index) ? sum + product.preco * product.quantidade : sum;
+      }, 0);
+
+      const count = selectedItems.size;
+      selectedSummaryElement.textContent = count === 0 ? "Nenhum item" : `${count} ${count === 1 ? "item" : "itens"}`;
+      totalValueElement.textContent = currency.format(total);
+      clearButton.disabled = count === 0;
+      checkoutButton.disabled = count === 0;
+      updateSelectAllButton();
+    }
+
+    function getSelectableIndexes() {
+      return produtos
+        .map((product, index) => ({ product, index }))
+        .filter(({ product }) => !purchasedItems.has(productKey(product)))
+        .filter(({ product }) => activeMarket === "Todos" || product.mercado === activeMarket)
+        .map(({ index }) => index);
+    }
+
+    function updateSelectAllButton() {
+      const selectableIndexes = getSelectableIndexes();
+      const allSelected = selectableIndexes.length > 0 && selectableIndexes.every(index => selectedItems.has(index));
+      selectAllButton.textContent = allSelected ? "Todos selecionados" : "Selecionar todos";
+      selectAllButton.disabled = currentView === "purchased" || selectableIndexes.length === 0 || allSelected;
+    }
+
+    function updateViewControls() {
+      const purchasedCount = produtos.filter(product => purchasedItems.has(productKey(product))).length;
+      const viewingPurchased = currentView === "purchased";
+      purchasedCountElement.textContent = purchasedCount;
+      purchasedViewLabel.textContent = viewingPurchased ? "Voltar à lista" : "Comprados";
+      purchasedViewButton.classList.toggle("active", viewingPurchased);
+      purchasedViewButton.setAttribute("aria-pressed", String(viewingPurchased));
+      listTitleElement.textContent = viewingPurchased ? "Itens comprados" : "Seus itens";
+      footerElement.classList.toggle("hidden", viewingPurchased);
+      selectAllButton.hidden = viewingPurchased;
+      clearButton.hidden = viewingPurchased;
+      updateSelectAllButton();
+    }
+
+    function renderFilters() {
+      filtersElement.replaceChildren();
+
+      mercados.forEach(marketName => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `filter-pill${activeMarket === marketName ? " active" : ""}`;
+        button.textContent = marketName;
+        button.setAttribute("aria-pressed", String(activeMarket === marketName));
+        button.addEventListener("click", () => {
+          activeMarket = marketName;
+          renderFilters();
+          renderList();
+          updateSelectAllButton();
+        });
+        filtersElement.append(button);
+      });
+    }
+
+    function renderList() {
+      const visibleProducts = produtos
+        .map((product, index) => ({ product, index }))
+        .filter(({ product }) => {
+          const isPurchased = purchasedItems.has(productKey(product));
+          const belongsToView = currentView === "purchased" ? isPurchased : !isPurchased;
+          const belongsToMarket = activeMarket === "Todos" || product.mercado === activeMarket;
+          return belongsToView && belongsToMarket;
+        });
+
+      itemCountElement.textContent = visibleProducts.length;
+      itemCountElement.setAttribute("aria-label", `${visibleProducts.length} itens visíveis`);
+      listElement.replaceChildren();
+
+      if (!visibleProducts.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = currentView === "purchased"
+          ? "Nenhum item comprado neste mercado."
+          : `Nenhum item pendente${activeMarket === "Todos" ? "" : ` em ${activeMarket}`}.`;
+        listElement.append(empty);
+        return;
+      }
+
+      visibleProducts.forEach(({ product, index }) => {
+        const isPurchased = purchasedItems.has(productKey(product));
+        const card = document.createElement("article");
+        card.className = `item${selectedItems.has(index) ? " selected" : ""}${isPurchased ? " purchased" : ""}`;
+
+        const image = document.createElement("img");
+        image.className = "product-image";
+        image.src = product.foto || fallbackImage(product.nome);
+        image.alt = product.foto ? product.nome : `Imagem ilustrativa de ${product.nome}`;
+        image.loading = "lazy";
+        image.addEventListener("error", () => {
+          image.src = fallbackImage(product.nome);
+          image.alt = `Imagem indisponível: ${product.nome}`;
+        }, { once: true });
+
+        const info = document.createElement("div");
+        info.className = "product-info";
+
+        const market = document.createElement("span");
+        market.className = "market";
+        market.textContent = product.mercado;
+
+        const name = document.createElement("h2");
+        name.className = "product-name";
+        name.textContent = product.nome;
+
+        const meta = document.createElement("div");
+        meta.className = "product-meta";
+
+        const quantityControl = document.createElement("div");
+        quantityControl.className = "quantity-control";
+
+        const minusButton = document.createElement("button");
+        minusButton.className = "quantity-button";
+        minusButton.type = "button";
+        minusButton.textContent = "−";
+        minusButton.setAttribute("aria-label", `Diminuir quantidade de ${product.nome}`);
+
+        const quantity = document.createElement("span");
+        quantity.className = "quantity-value";
+        quantity.setAttribute("aria-live", "polite");
+
+        const plusButton = document.createElement("button");
+        plusButton.className = "quantity-button";
+        plusButton.type = "button";
+        plusButton.textContent = "+";
+        plusButton.setAttribute("aria-label", `Aumentar quantidade de ${product.nome}`);
+
+        quantityControl.append(minusButton, quantity, plusButton);
+
+        const priceStack = document.createElement("div");
+        priceStack.className = "price-stack";
+        const price = document.createElement("span");
+        price.className = "product-price";
+        const unitPrice = document.createElement("span");
+        unitPrice.className = "unit-price";
+        unitPrice.textContent = `${currency.format(product.preco)} cada`;
+        priceStack.append(price, unitPrice);
+        meta.append(priceStack);
+        info.append(market, name, meta);
+
+        const checkbox = document.createElement("input");
+        checkbox.className = "checkbox";
+        checkbox.type = "checkbox";
+        checkbox.checked = isPurchased || selectedItems.has(index);
+        checkbox.disabled = isPurchased;
+        checkbox.setAttribute("aria-label", isPurchased ? `${product.nome} já comprado` : `Selecionar ${product.nome}`);
+        checkbox.addEventListener("change", () => {
+          checkbox.checked ? selectedItems.add(index) : selectedItems.delete(index);
+          card.classList.toggle("selected", checkbox.checked);
+          updateTotal();
+        });
+
+        const returnButton = document.createElement("button");
+        returnButton.className = "return-button";
+        returnButton.type = "button";
+        returnButton.textContent = "Retornar à lista";
+        returnButton.setAttribute("aria-label", `Retornar ${product.nome} à lista principal`);
+        returnButton.addEventListener("click", event => {
+          event.stopPropagation();
+          purchasedItems.delete(productKey(product));
+          savePurchasedItems();
+          renderList();
+          updateViewControls();
+        });
+
+        function refreshQuantity() {
+          quantity.textContent = product.quantidade;
+          price.textContent = currency.format(product.preco * product.quantidade);
+          minusButton.disabled = isPurchased || product.quantidade <= 1;
+          plusButton.disabled = isPurchased || product.quantidade >= 99;
+        }
+
+        minusButton.addEventListener("click", event => {
+          event.stopPropagation();
+          product.quantidade = Math.max(1, product.quantidade - 1);
+          saveQuantities();
+          refreshQuantity();
+          updateTotal();
+        });
+
+        plusButton.addEventListener("click", event => {
+          event.stopPropagation();
+          product.quantidade = Math.min(99, product.quantidade + 1);
+          saveQuantities();
+          refreshQuantity();
+          updateTotal();
+        });
+
+        card.addEventListener("click", event => {
+          if (event.target.closest("button, input") || checkbox.disabled) return;
+          checkbox.checked = !checkbox.checked;
+          checkbox.dispatchEvent(new Event("change"));
+        });
+
+        refreshQuantity();
+        card.append(checkbox, image, info, isPurchased ? returnButton : quantityControl);
+        listElement.append(card);
+      });
+    }
+
+    purchasedViewButton.addEventListener("click", () => {
+      currentView = currentView === "shopping" ? "purchased" : "shopping";
+      activeMarket = "Todos";
+      renderFilters();
+      renderList();
+      updateViewControls();
+    });
+
+    selectAllButton.addEventListener("click", () => {
+      getSelectableIndexes().forEach(index => selectedItems.add(index));
+      renderList();
+      updateTotal();
+    });
+
+    clearButton.addEventListener("click", () => {
+      selectedItems.clear();
+      document.querySelectorAll(".checkbox").forEach(input => { input.checked = false; });
+      document.querySelectorAll(".item.selected").forEach(item => item.classList.remove("selected"));
+      updateTotal();
+    });
+
+    checkoutButton.addEventListener("click", () => {
+      selectedItems.forEach(index => purchasedItems.add(productKey(produtos[index])));
+      savePurchasedItems();
+      selectedItems.clear();
+      renderList();
+      updateTotal();
+      updateViewControls();
+    });
+
+    renderFilters();
+    renderList();
+    updateTotal();
+    updateViewControls();
+  </script>
+</body>
+</html>
