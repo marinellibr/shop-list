@@ -252,6 +252,7 @@
       font-weight: 850;
       text-transform: uppercase;
       letter-spacing: .04em;
+      white-space: nowrap;
     }
 
     .anytime-grid {
@@ -341,12 +342,27 @@
         semana: "Terça-feira",
         pratos: [
           { momento: "Almoço", nome: "PF de Picanha com Farofa de Ovo" },
-          { momento: "Janta", nome: "Strogonoff de Camarão" },
-          { momento: "Janta", nome: "Cheong de Hortelã" },
-          { momento: "Janta", nome: "Cheong de Frutas Vermelhas" }
+          { momento: "Janta", nome: "Strogonoff de Camarão" }
         ]
       },
-      { data: "18/11", dia: "Qua", titulo: "18 de novembro", semana: "Quarta-feira", pratos: [] },
+      {
+        data: "18/11",
+        dia: "Qua",
+        titulo: "18 de novembro",
+        semana: "Quarta-feira",
+        pratos: [
+          { momento: "Almoço", nome: "Swedish Meatball Sandwich" },
+          { momento: "Janta · Boteco", nome: "Nuggets" },
+          { momento: "Janta · Boteco", nome: "Batata Frita" },
+          { momento: "Janta · Boteco", nome: "Fried Calamari" },
+          { momento: "Janta · Boteco", nome: "Pão de Alho" },
+          { momento: "Janta · Boteco", nome: "Salgados com Massa de Pizza" },
+          { momento: "Janta · Boteco", nome: "Mandioca Frita" },
+          { momento: "Janta · Boteco", nome: "Polenta Frita" },
+          { momento: "Janta · Boteco", nome: "Calabresa Acebolada" },
+          { momento: "Janta · Boteco", nome: "Bife Acebolado" }
+        ]
+      },
       { data: "19/11", dia: "Qui", titulo: "19 de novembro", semana: "Quinta-feira", pratos: [] },
       { data: "20/11", dia: "Sex", titulo: "20 de novembro", semana: "Sexta-feira", pratos: [] },
       { data: "21/11", dia: "Sáb", titulo: "21 de novembro", semana: "Sábado", pratos: [] },
@@ -359,7 +375,9 @@
       "Long Island Jager Sprite",
       "Ceviche de Manga",
       "Bolinho Porco Espinho com Camarão",
-      "Lobster Roll"
+      "Lobster Roll",
+      "Cheong de Hortelã",
+      "Cheong de Frutas Vermelhas"
     ];
     let activeDay = 0;
 
