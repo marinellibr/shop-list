@@ -236,12 +236,59 @@
     .recipe-card h3 { margin: 0; font-size: 1rem; }
     .recipe-card p { margin: 7px 0 0; color: var(--muted); font-size: .88rem; line-height: 1.5; }
 
+    .recipe-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .meal-badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-size: .68rem;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .anytime-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .anytime-recipe {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 58px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fafbf9;
+      font-size: .92rem;
+      font-weight: 750;
+    }
+
+    .anytime-recipe::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(243, 190, 75, .18);
+    }
+
     @media (min-width: 760px) {
       .app { padding: calc(54px + env(safe-area-inset-top)) max(28px, env(safe-area-inset-right)) calc(70px + env(safe-area-inset-bottom)) max(28px, env(safe-area-inset-left)); }
       header { margin: 42px 0 48px; }
       .panel { padding: 26px; }
       .calendar-nav { grid-template-columns: 52px minmax(0, 1fr) 52px; }
       .calendar-arrow { width: 52px; height: 52px; }
+      .anytime-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
 </head>
@@ -278,22 +325,27 @@
       <section class="panel" aria-labelledby="anytimeTitle">
         <div class="panel-heading">
           <h2 id="anytimeTitle">Para qualquer momento</h2>
-          <span class="panel-tag">Sem data</span>
+          <span class="panel-tag" id="anytimeCount">Sem data</span>
         </div>
-        <div class="empty-state" id="anytimeContent">
-          <div>
-            <span class="empty-icon" aria-hidden="true">🍽️</span>
-            <strong>Nenhuma receita adicionada</strong>
-            <p>As receitas livres ficarão disponíveis aqui para escolher quando quiser.</p>
-          </div>
-        </div>
+        <div id="anytimeContent"></div>
       </section>
     </div>
   </main>
 
   <script>
     const calendario = [
-      { data: "17/11", dia: "Ter", titulo: "17 de novembro", semana: "Terça-feira", pratos: [] },
+      {
+        data: "17/11",
+        dia: "Ter",
+        titulo: "17 de novembro",
+        semana: "Terça-feira",
+        pratos: [
+          { momento: "Almoço", nome: "PF de Picanha com Farofa de Ovo" },
+          { momento: "Janta", nome: "Strogonoff de Camarão" },
+          { momento: "Janta", nome: "Cheong de Hortelã" },
+          { momento: "Janta", nome: "Cheong de Frutas Vermelhas" }
+        ]
+      },
       { data: "18/11", dia: "Qua", titulo: "18 de novembro", semana: "Quarta-feira", pratos: [] },
       { data: "19/11", dia: "Qui", titulo: "19 de novembro", semana: "Quinta-feira", pratos: [] },
       { data: "20/11", dia: "Sex", titulo: "20 de novembro", semana: "Sexta-feira", pratos: [] },
@@ -301,7 +353,14 @@
       { data: "22/11", dia: "Dom", titulo: "22 de novembro", semana: "Domingo", pratos: [] }
     ];
 
-    const receitasLivres = [];
+    const receitasLivres = [
+      "Brownie",
+      "Cocada de Forno",
+      "Long Island Jager Sprite",
+      "Ceviche de Manga",
+      "Bolinho Porco Espinho com Camarão",
+      "Lobster Roll"
+    ];
     let activeDay = 0;
 
     const previousButton = document.querySelector("#previousDay");
@@ -311,6 +370,7 @@
     const dateStrip = document.querySelector("#dateStrip");
     const dayContent = document.querySelector("#dayContent");
     const anytimeContent = document.querySelector("#anytimeContent");
+    const anytimeCount = document.querySelector("#anytimeCount");
 
     function renderDateStrip() {
       dateStrip.replaceChildren();
@@ -345,10 +405,29 @@
       entry.pratos.forEach(prato => {
         const card = document.createElement("article");
         card.className = "recipe-card";
-        card.innerHTML = `<h3>${prato.nome}</h3><p>${prato.descricao || ""}</p>`;
+        card.innerHTML = `<div class="recipe-card-header"><span class="meal-badge">${prato.momento}</span><h3>${prato.nome}</h3></div>${prato.descricao ? `<p>${prato.descricao}</p>` : ""}`;
         list.append(card);
       });
       dayContent.append(list);
+    }
+
+    function renderAnytimeRecipes() {
+      anytimeCount.textContent = `${receitasLivres.length} receitas`;
+
+      if (!receitasLivres.length) {
+        anytimeContent.className = "empty-state";
+        anytimeContent.innerHTML = '<div><span class="empty-icon" aria-hidden="true">🍽️</span><strong>Nenhuma receita adicionada</strong><p>As receitas livres ficarão disponíveis aqui para escolher quando quiser.</p></div>';
+        return;
+      }
+
+      anytimeContent.className = "anytime-grid";
+      anytimeContent.replaceChildren();
+      receitasLivres.forEach(receita => {
+        const item = document.createElement("article");
+        item.className = "anytime-recipe";
+        item.textContent = receita;
+        anytimeContent.append(item);
+      });
     }
 
     function renderCalendar() {
@@ -376,6 +455,7 @@
     });
 
     renderCalendar();
+    renderAnytimeRecipes();
   </script>
 </body>
 </html>
