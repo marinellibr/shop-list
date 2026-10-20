@@ -505,6 +505,27 @@
     const dayContent = document.querySelector("#dayContent");
     const anytimeContent = document.querySelector("#anytimeContent");
     const anytimeCount = document.querySelector("#anytimeCount");
+    const fallbackRecipePhoto = "https://images.unsplash.com/photo-1762631885089-87c72596dd70?auto=format&fit=crop&w=800&q=82";
+
+    function appendRecipeImage(container, name, source, className) {
+      const image = document.createElement("img");
+      let usingFallback = !source;
+      image.className = className;
+      image.src = source || fallbackRecipePhoto;
+      image.alt = `Foto ilustrativa de ${name}`;
+      image.loading = "lazy";
+      image.addEventListener("error", () => {
+        if (!usingFallback) {
+          usingFallback = true;
+          image.src = fallbackRecipePhoto;
+          return;
+        }
+        image.remove();
+        container.classList.remove("has-image");
+      });
+      container.classList.add("has-image");
+      container.append(image);
+    }
 
     function renderDateStrip() {
       dateStrip.replaceChildren();
@@ -543,19 +564,7 @@
         const details = document.createElement("div");
         details.innerHTML = `<div class="recipe-card-header"><span class="meal-badge">${prato.momento}</span><h3>${prato.nome}</h3></div>${prato.descricao ? `<p>${prato.descricao}</p>` : ""}${prato.link ? '<span class="recipe-link-hint">Ver receita →</span>' : ""}`;
 
-        if (prato.foto) {
-          const image = document.createElement("img");
-          image.className = "recipe-image";
-          image.src = prato.foto;
-          image.alt = `Foto ilustrativa de ${prato.nome}`;
-          image.loading = "lazy";
-          image.addEventListener("error", () => {
-            image.remove();
-            card.classList.remove("has-image");
-          }, { once: true });
-          card.classList.add("has-image");
-          card.append(image);
-        }
+        appendRecipeImage(card, prato.nome, prato.foto, "recipe-image");
 
         card.append(details);
         list.append(card);
@@ -578,19 +587,7 @@
         const item = document.createElement("article");
         item.className = "anytime-recipe";
 
-        if (receita.foto) {
-          const image = document.createElement("img");
-          image.className = "anytime-image";
-          image.src = receita.foto;
-          image.alt = `Foto ilustrativa de ${receita.nome}`;
-          image.loading = "lazy";
-          image.addEventListener("error", () => {
-            image.remove();
-            item.classList.remove("has-image");
-          }, { once: true });
-          item.classList.add("has-image");
-          item.append(image);
-        }
+        appendRecipeImage(item, receita.nome, receita.foto, "anytime-image");
 
         const name = document.createElement("span");
         name.textContent = receita.nome;
