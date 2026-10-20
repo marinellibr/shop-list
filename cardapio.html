@@ -253,6 +253,28 @@
     .recipe-card h3 { margin: 0; font-size: 1rem; }
     .recipe-card p { margin: 7px 0 0; color: var(--muted); font-size: .88rem; line-height: 1.5; }
 
+    a.recipe-card {
+      position: relative;
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    a.recipe-card:hover {
+      border-color: var(--brand);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(24, 53, 45, .09);
+    }
+
+    .recipe-link-hint {
+      display: inline-block;
+      margin-top: 8px;
+      color: var(--brand);
+      font-size: .73rem;
+      font-weight: 850;
+    }
+
     .recipe-card-header {
       display: flex;
       align-items: center;
@@ -377,7 +399,7 @@
         titulo: "17 de novembro",
         semana: "Terça-feira",
         pratos: [
-          { momento: "Almoço", nome: "PF de Picanha com Farofa de Ovo", foto: "https://images.unsplash.com/photo-1702288824213-58b8b47732b0?auto=format&fit=crop&w=800&q=82" },
+          { momento: "Almoço", nome: "PF de Picanha com Farofa de Ovo", foto: "https://images.unsplash.com/photo-1702288824213-58b8b47732b0?auto=format&fit=crop&w=800&q=82", link: "receita.html" },
           { momento: "Janta", nome: "Strogonoff de Camarão", foto: "https://images.unsplash.com/photo-1551248429-40975aa4de74?auto=format&fit=crop&w=800&q=82" }
         ]
       },
@@ -460,6 +482,14 @@
         nome: "Tempurá de Legumes",
         foto: "https://images.unsplash.com/photo-1570078362689-c57c33cca104?auto=format&fit=crop&w=800&q=82"
       },
+      {
+        nome: "Sanduíche BLT",
+        foto: "https://storage.googleapis.com/sulten-media-storage/cqXEk7tljfddNb9kck93w7D3pzF2/recipes/224d1efe-47ef-47c7-8661-b70be1f6f113/blt-sandwich-_mfk.jpeg"
+      },
+      {
+        nome: "Geleia de Cebola Caramelizada com Bacon",
+        foto: "https://www.mccormickforchefs.com/-/media/mccormickforchefs2017/recipes/all-2022-images/stone-ground-dijon-recipe-images/472x472_caramelized-onion-bacon-jam.png?extension=webp&hash=8F7371C77494FAAD7AF7C7E80790BA1B&rev=f0c2f8d6463f49cea4c8e2f8ecb730d5&vd=20250421T200428Z"
+      },
     ];
     let activeDay = 0;
 
@@ -503,10 +533,11 @@
       const list = document.createElement("div");
       list.className = "recipe-list";
       entry.pratos.forEach(prato => {
-        const card = document.createElement("article");
+        const card = document.createElement(prato.link ? "a" : "article");
         card.className = "recipe-card";
+        if (prato.link) card.href = prato.link;
         const details = document.createElement("div");
-        details.innerHTML = `<div class="recipe-card-header"><span class="meal-badge">${prato.momento}</span><h3>${prato.nome}</h3></div>${prato.descricao ? `<p>${prato.descricao}</p>` : ""}`;
+        details.innerHTML = `<div class="recipe-card-header"><span class="meal-badge">${prato.momento}</span><h3>${prato.nome}</h3></div>${prato.descricao ? `<p>${prato.descricao}</p>` : ""}${prato.link ? '<span class="recipe-link-hint">Ver receita →</span>' : ""}`;
 
         if (prato.foto) {
           const image = document.createElement("img");
