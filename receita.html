@@ -139,6 +139,35 @@
 
     .placeholder strong { display: block; margin-bottom: 7px; color: var(--ink); }
 
+    .video-panel { grid-column: 1 / -1; }
+
+    .video-shell {
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 14px;
+      border-radius: 18px;
+      background: #101211;
+    }
+
+    .video-frame {
+      display: block;
+      width: min(100%, 420px);
+      aspect-ratio: 9 / 16;
+      border: 0;
+      border-radius: 14px;
+      background: #000;
+    }
+
+    .video-source {
+      display: inline-flex;
+      margin-top: 14px;
+      color: var(--brand);
+      font-size: .82rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
     @media (min-width: 760px) {
       .app { padding: calc(54px + env(safe-area-inset-top)) max(28px, env(safe-area-inset-right)) calc(78px + env(safe-area-inset-bottom)) max(28px, env(safe-area-inset-left)); }
       .hero { grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); align-items: center; margin: 42px 0 28px; }
@@ -152,15 +181,23 @@
     <a class="back-link" href="cardapio.html">← Voltar ao Cardápio</a>
 
     <section class="hero">
-      <img class="hero-image" src="https://images.unsplash.com/photo-1702288824213-58b8b47732b0?auto=format&fit=crop&w=1200&q=86" alt="Foto ilustrativa de picanha" onerror="this.style.display='none'">
+      <img class="hero-image" id="heroImage" src="https://images.unsplash.com/photo-1702288824213-58b8b47732b0?auto=format&fit=crop&w=1200&q=86" alt="Foto ilustrativa de picanha" onerror="this.style.display='none'">
       <div>
-        <p class="eyebrow">Página exemplo · 17/11 · Almoço</p>
-        <h1>PF de Picanha com Farofa de Ovo</h1>
-        <p class="subtitle">Este é o modelo das páginas de receita. Quando você enviar o conteúdo, ingredientes, quantidades e preparo entrarão nestas áreas.</p>
+        <p class="eyebrow" id="recipeEyebrow">Página exemplo · 17/11 · Almoço</p>
+        <h1 id="recipeTitle">PF de Picanha com Farofa de Ovo</h1>
+        <p class="subtitle" id="recipeSubtitle">Este é o modelo das páginas de receita. Quando você enviar o conteúdo, ingredientes, quantidades e preparo entrarão nestas áreas.</p>
       </div>
     </section>
 
     <div class="recipe-layout">
+      <section class="panel video-panel" id="videoPanel" aria-labelledby="videoTitle" hidden>
+        <h2 id="videoTitle">Vídeo da receita</h2>
+        <div class="video-shell">
+          <iframe class="video-frame" id="videoFrame" title="Vídeo da receita no TikTok" loading="lazy" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <a class="video-source" id="videoSource" href="#" target="_blank" rel="noopener noreferrer">Abrir vídeo no TikTok →</a>
+      </section>
+
       <section class="panel" aria-labelledby="ingredientsTitle">
         <h2 id="ingredientsTitle">Ingredientes</h2>
         <div class="placeholder">
@@ -180,6 +217,53 @@
   </main>
 
   <script>
+    const recipePages = {
+      "croquete-frango-alfredo": {
+        title: "Croquete de Frango Alfredo",
+        eyebrow: "Receita sem data · Vídeo",
+        subtitle: "Assista ao vídeo incorporado abaixo. Os ingredientes e o passo a passo em texto poderão ser adicionados depois.",
+        image: "https://swiftbr.vteximg.com.br/arquivos/chicken-croc-caseiro.jpg",
+        videoId: "7699201409622887694",
+        videoUrl: "https://vt.tiktok.com/ZSgmpPAFe/"
+      },
+      "mini-burrito-frito": {
+        title: "Mini Burrito Frito",
+        eyebrow: "Receita sem data · Vídeo",
+        subtitle: "Assista ao vídeo incorporado abaixo. Os ingredientes e o passo a passo em texto poderão ser adicionados depois.",
+        image: "https://assets.tastemadecdn.net/images/665faa/ef914e446c8492a43437/e8a032.png",
+        videoId: "7691340241692658975",
+        videoUrl: "https://vt.tiktok.com/ZSgms63HQ/"
+      },
+      "massa-choux": {
+        title: "Massa Choux",
+        eyebrow: "Receita sem data · Vídeo",
+        subtitle: "Assista ao vídeo incorporado abaixo. Os ingredientes e o passo a passo em texto poderão ser adicionados depois.",
+        image: "https://img.koket.se/standard-mega/profiterole-se-gor.jpg",
+        videoId: "7688131166330768648",
+        videoUrl: "https://vt.tiktok.com/ZSgmfeydF/"
+      }
+    };
+
+    const recipeKey = new URLSearchParams(window.location.search).get("receita");
+    const recipe = recipePages[recipeKey];
+
+    if (recipe) {
+      document.title = `${recipe.title} · Receita`;
+      const heroImage = document.querySelector("#heroImage");
+      heroImage.src = recipe.image;
+      heroImage.alt = `Foto ilustrativa de ${recipe.title}`;
+      document.querySelector("#recipeEyebrow").textContent = recipe.eyebrow;
+      document.querySelector("#recipeTitle").textContent = recipe.title;
+      document.querySelector("#recipeSubtitle").textContent = recipe.subtitle;
+      const videoPanel = document.querySelector("#videoPanel");
+      const videoFrame = document.querySelector("#videoFrame");
+      const videoSource = document.querySelector("#videoSource");
+      videoFrame.src = `https://www.tiktok.com/player/v1/${recipe.videoId}?autoplay=0&music_info=1&description=1`;
+      videoFrame.title = `Vídeo de ${recipe.title} no TikTok`;
+      videoSource.href = recipe.videoUrl;
+      videoPanel.hidden = false;
+    }
+
     ["gesturestart", "gesturechange", "gestureend"].forEach(eventName => {
       document.addEventListener(eventName, event => event.preventDefault(), { passive: false });
     });

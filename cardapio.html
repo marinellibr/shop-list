@@ -312,6 +312,29 @@
       font-weight: 750;
     }
 
+    a.anytime-recipe {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    a.anytime-recipe:hover {
+      border-color: var(--brand);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(24, 53, 45, .09);
+    }
+
+    .anytime-recipe-text { min-width: 0; }
+
+    .anytime-recipe-hint {
+      display: block;
+      margin-top: 4px;
+      color: var(--brand);
+      font-size: .7rem;
+      font-weight: 850;
+    }
+
     .anytime-recipe::before {
       content: "";
       flex: 0 0 auto;
@@ -500,15 +523,18 @@
       },
       {
         nome: "Croquete de Frango Alfredo",
-        foto: "https://swiftbr.vteximg.com.br/arquivos/chicken-croc-caseiro.jpg"
+        foto: "https://swiftbr.vteximg.com.br/arquivos/chicken-croc-caseiro.jpg",
+        link: "receita.html?receita=croquete-frango-alfredo"
       },
       {
         nome: "Mini Burrito Frito",
-        foto: "https://assets.tastemadecdn.net/images/665faa/ef914e446c8492a43437/e8a032.png"
+        foto: "https://assets.tastemadecdn.net/images/665faa/ef914e446c8492a43437/e8a032.png",
+        link: "receita.html?receita=mini-burrito-frito"
       },
       {
         nome: "Massa Choux",
-        foto: "https://img.koket.se/standard-mega/profiterole-se-gor.jpg"
+        foto: "https://img.koket.se/standard-mega/profiterole-se-gor.jpg",
+        link: "receita.html?receita=massa-choux"
       },
     ];
     let activeDay = 0;
@@ -600,14 +626,22 @@
       anytimeContent.className = "anytime-grid";
       anytimeContent.replaceChildren();
       receitasLivres.forEach(receita => {
-        const item = document.createElement("article");
+        const item = document.createElement(receita.link ? "a" : "article");
         item.className = "anytime-recipe";
+        if (receita.link) item.href = receita.link;
 
         appendRecipeImage(item, receita.nome, receita.foto, "anytime-image");
 
-        const name = document.createElement("span");
-        name.textContent = receita.nome;
-        item.append(name);
+        const text = document.createElement("span");
+        text.className = "anytime-recipe-text";
+        text.textContent = receita.nome;
+        if (receita.link) {
+          const hint = document.createElement("span");
+          hint.className = "anytime-recipe-hint";
+          hint.textContent = "Ver receita →";
+          text.append(hint);
+        }
+        item.append(text);
         anytimeContent.append(item);
       });
     }
