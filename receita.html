@@ -139,6 +139,16 @@
 
     .placeholder strong { display: block; margin-bottom: 7px; color: var(--ink); }
 
+    .recipe-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding-left: 20px;
+      color: var(--ink);
+    }
+
+    .recipe-list li { padding-left: 4px; line-height: 1.5; }
+
     .video-panel { grid-column: 1 / -1; }
 
     .video-shell {
@@ -200,7 +210,7 @@
 
       <section class="panel" aria-labelledby="ingredientsTitle">
         <h2 id="ingredientsTitle">Ingredientes</h2>
-        <div class="placeholder">
+        <div class="placeholder" id="ingredientsContent">
           <strong>Lista a definir</strong>
           Os ingredientes e suas quantidades serão adicionados quando a receita for enviada.
         </div>
@@ -208,7 +218,7 @@
 
       <section class="panel" aria-labelledby="methodTitle">
         <h2 id="methodTitle">Modo de preparo</h2>
-        <div class="placeholder">
+        <div class="placeholder" id="methodContent">
           <strong>Passo a passo a definir</strong>
           O preparo será organizado em etapas curtas e fáceis de acompanhar durante a cozinha.
         </div>
@@ -273,6 +283,24 @@
         image: "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2023/12/08/896162042-pao-australiano.jpg",
         videoId: "7531114931387682054",
         videoUrl: "https://vt.tiktok.com/ZSboQLcMf/"
+      },
+      "long-island-jager-sprite": {
+        title: "Long Island Jager Sprite",
+        eyebrow: "Receita sem data · Drink",
+        subtitle: "Um drink de partes iguais, finalizado com Sprite ou Coca-Cola.",
+        image: "https://images.unsplash.com/photo-1576670394248-c041349f33fe?auto=format&fit=crop&w=1200&q=86",
+        ingredients: [
+          "1 parte de vodka",
+          "1 parte de rum",
+          "1 parte de tequila",
+          "1 parte de gin",
+          "1 parte de Jägermeister",
+          "Sprite ou Coca-Cola para completar"
+        ],
+        method: [
+          "Coloque partes iguais de vodka, rum, tequila, gin e Jägermeister no copo.",
+          "Complete com Sprite ou Coca-Cola e sirva."
+        ]
       }
     };
 
@@ -287,13 +315,31 @@
       document.querySelector("#recipeEyebrow").textContent = recipe.eyebrow;
       document.querySelector("#recipeTitle").textContent = recipe.title;
       document.querySelector("#recipeSubtitle").textContent = recipe.subtitle;
-      const videoPanel = document.querySelector("#videoPanel");
-      const videoFrame = document.querySelector("#videoFrame");
-      const videoSource = document.querySelector("#videoSource");
-      videoFrame.src = `https://www.tiktok.com/player/v1/${recipe.videoId}?autoplay=0&music_info=1&description=1`;
-      videoFrame.title = `Vídeo de ${recipe.title} no TikTok`;
-      videoSource.href = recipe.videoUrl;
-      videoPanel.hidden = false;
+      if (recipe.videoId) {
+        const videoPanel = document.querySelector("#videoPanel");
+        const videoFrame = document.querySelector("#videoFrame");
+        const videoSource = document.querySelector("#videoSource");
+        videoFrame.src = `https://www.tiktok.com/player/v1/${recipe.videoId}?autoplay=0&music_info=1&description=1`;
+        videoFrame.title = `Vídeo de ${recipe.title} no TikTok`;
+        videoSource.href = recipe.videoUrl;
+        videoPanel.hidden = false;
+      }
+
+      const renderList = (targetId, items, ordered = false) => {
+        if (!items?.length) return;
+        const target = document.querySelector(targetId);
+        const list = document.createElement(ordered ? "ol" : "ul");
+        list.className = "recipe-list";
+        items.forEach(item => {
+          const listItem = document.createElement("li");
+          listItem.textContent = item;
+          list.appendChild(listItem);
+        });
+        target.replaceChildren(list);
+      };
+
+      renderList("#ingredientsContent", recipe.ingredients);
+      renderList("#methodContent", recipe.method, true);
     }
 
     ["gesturestart", "gesturechange", "gestureend"].forEach(eventName => {
