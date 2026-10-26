@@ -299,6 +299,40 @@
       gap: 10px;
     }
 
+    .recipe-search {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .recipe-search span {
+      color: var(--muted);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .035em;
+      text-transform: uppercase;
+    }
+
+    .recipe-search input {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      outline: none;
+      background: #fafbf9;
+      color: var(--ink);
+      font: inherit;
+      font-size: .94rem;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .recipe-search input:focus {
+      border-color: var(--brand);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(31, 111, 87, .12);
+    }
+
     .anytime-recipe {
       display: flex;
       align-items: center;
@@ -401,6 +435,11 @@
           <h2 id="anytimeTitle">Para qualquer momento</h2>
           <span class="panel-tag" id="anytimeCount">Sem data</span>
         </div>
+        <label class="recipe-search" for="recipeSearch">
+          <span>Buscar receita</span>
+          <input id="recipeSearch" type="search" list="recipeSuggestions" placeholder="Digite o nome de uma receita" autocomplete="off">
+        </label>
+        <datalist id="recipeSuggestions"></datalist>
         <div id="anytimeContent"></div>
       </section>
     </div>
@@ -432,10 +471,10 @@
         titulo: "18 de novembro",
         semana: "Quarta-feira",
         pratos: [
-          { momento: "Almoço", nome: "Swedish Meatball Sandwich", foto: "https://images.unsplash.com/photo-1745031601345-30fb3f97b118?auto=format&fit=crop&w=800&q=82" },
+          { momento: "Almoço", nome: "Swedish Meatball Sandwich", foto: "https://images.unsplash.com/photo-1745031601345-30fb3f97b118?auto=format&fit=crop&w=800&q=82", link: "receita.html?receita=swedish-meatball-sandwich" },
           { momento: "Janta · Boteco", nome: "Nuggets", foto: "https://images.unsplash.com/photo-1762631885089-87c72596dd70?auto=format&fit=crop&w=800&q=82" },
           { momento: "Janta · Boteco", nome: "Batata Frita", foto: "https://images.unsplash.com/photo-1762631885089-87c72596dd70?auto=format&fit=crop&w=800&q=82" },
-          { momento: "Janta · Boteco", nome: "Fried Calamari", foto: "https://images.unsplash.com/photo-1762631885089-87c72596dd70?auto=format&fit=crop&w=800&q=82" },
+          { momento: "Janta · Boteco", nome: "Fried Calamari", foto: "https://images.unsplash.com/photo-1762631885089-87c72596dd70?auto=format&fit=crop&w=800&q=82", link: "receita.html?receita=fried-calamari" },
           { momento: "Janta · Boteco", nome: "Pão de Alho", foto: "https://samsclub.vtexassets.com/arquivos/ids/219413-848-848/7898337980248%20Pao%20De%20Alho%20Trad%20Baguete%20300g%20Zinho.jpg?v=639003853807570000" },
           { momento: "Janta · Boteco", nome: "Salgados com Massa de Pizza", foto: "https://images.unsplash.com/photo-1762631885089-87c72596dd70?auto=format&fit=crop&w=800&q=82" },
           { momento: "Janta · Boteco", nome: "Mandioca Frita", foto: "https://images.unsplash.com/photo-1762631885089-87c72596dd70?auto=format&fit=crop&w=800&q=82" },
@@ -478,7 +517,7 @@
     ];
 
     const receitasLivres = [
-      { nome: "Brownie", foto: "https://images.unsplash.com/photo-1777647362214-ae62d7d4a707?auto=format&fit=crop&w=800&q=82" },
+      { nome: "Brownie", foto: "https://images.unsplash.com/photo-1777647362214-ae62d7d4a707?auto=format&fit=crop&w=800&q=82", link: "receita.html?receita=brownie" },
       { nome: "Cocada de Forno", foto: "https://images.unsplash.com/photo-1535922964111-cf1f1e862dcc?auto=format&fit=crop&w=800&q=82", link: "receita.html?receita=cocada-de-forno" },
       { nome: "Long Island Jager Sprite", foto: "https://images.unsplash.com/photo-1576670394248-c041349f33fe?auto=format&fit=crop&w=800&q=82", link: "receita.html?receita=long-island-jager-sprite" },
       { nome: "Ceviche de Manga", foto: "https://obahortifruti.vtexassets.com/arquivos/ids/11475765/Manga-Rosa-Kg.jpg?v=638937381437930000" },
@@ -487,7 +526,7 @@
       { nome: "Cheong de Hortelã", foto: "https://obahortifruti.vtexassets.com/arquivos/ids/11474300/Hortela-Hidroponica-Unidade.jpg?v=638863696781830000" },
       { nome: "Cheong de Frutas Vermelhas", foto: "https://swiftbr.vteximg.com.br/arquivos/ids/208715/617907-mix-de-frutas-vermelhas_inn.jpg?v=638870702332670000" },
       { nome: "Salada de Batata", foto: "https://samsclub.vtexassets.com/arquivos/ids/164097-848-848/batatabolinhababysuperbatatapacote1kg7898940128037.jpg?v=637575534513670000" },
-      { nome: "Maionese de Ovo", foto: "https://images.unsplash.com/photo-1635843086739-624d71f440b3?auto=format&fit=crop&w=800&q=82" },
+      { nome: "Maionese de Ovo", foto: "https://images.unsplash.com/photo-1635843086739-624d71f440b3?auto=format&fit=crop&w=800&q=82", link: "receita.html?receita=maionese-de-ovo" },
       { nome: "Tábua de Charcuteria", foto: "https://images.unsplash.com/photo-1773418528879-1270556999e5?auto=format&fit=crop&w=800&q=82" },
             {
         nome: "Margarita de Morango",
@@ -511,11 +550,18 @@
       },
       {
         nome: "Geleia de Cebola Caramelizada com Bacon",
-        foto: "https://www.mccormickforchefs.com/-/media/mccormickforchefs2017/recipes/all-2022-images/stone-ground-dijon-recipe-images/472x472_caramelized-onion-bacon-jam.png?extension=webp&hash=8F7371C77494FAAD7AF7C7E80790BA1B&rev=f0c2f8d6463f49cea4c8e2f8ecb730d5&vd=20250421T200428Z"
+        foto: "https://www.mccormickforchefs.com/-/media/mccormickforchefs2017/recipes/all-2022-images/stone-ground-dijon-recipe-images/472x472_caramelized-onion-bacon-jam.png?extension=webp&hash=8F7371C77494FAAD7AF7C7E80790BA1B&rev=f0c2f8d6463f49cea4c8e2f8ecb730d5&vd=20250421T200428Z",
+        link: "receita.html?receita=geleia-cebola-bacon"
       },
       {
         nome: "Frappuccino",
-        foto: "https://tb-static.uber.com/prod/image-proc/processed_images/fff425c44e398eb57754915c21088d35/a19bb09692310dfd41e49a96c424b3a6.jpeg"
+        foto: "https://tb-static.uber.com/prod/image-proc/processed_images/fff425c44e398eb57754915c21088d35/a19bb09692310dfd41e49a96c424b3a6.jpeg",
+        link: "receita.html?receita=frappuccino"
+      },
+      {
+        nome: "Margarita",
+        foto: "https://images.unsplash.com/photo-1516684163977-84cc7de8c7c8?auto=format&fit=crop&w=800&q=82",
+        link: "receita.html?receita=margarita"
       },
       {
         nome: "Croquete de Carne Moída",
@@ -553,6 +599,8 @@
     const dayContent = document.querySelector("#dayContent");
     const anytimeContent = document.querySelector("#anytimeContent");
     const anytimeCount = document.querySelector("#anytimeCount");
+    const recipeSearch = document.querySelector("#recipeSearch");
+    const recipeSuggestions = document.querySelector("#recipeSuggestions");
     const fallbackRecipePhoto = "https://images.unsplash.com/photo-1762631885089-87c72596dd70?auto=format&fit=crop&w=800&q=82";
 
     function appendRecipeImage(container, name, source, className) {
@@ -620,18 +668,37 @@
       dayContent.append(list);
     }
 
-    function renderAnytimeRecipes() {
-      anytimeCount.textContent = `${receitasLivres.length} receitas`;
+    function normalizeText(value) {
+      return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    }
 
-      if (!receitasLivres.length) {
+    function populateRecipeSuggestions() {
+      recipeSuggestions.replaceChildren();
+      receitasLivres.forEach(receita => {
+        const option = document.createElement("option");
+        option.value = receita.nome;
+        recipeSuggestions.append(option);
+      });
+    }
+
+    function renderAnytimeRecipes(query = "") {
+      const normalizedQuery = normalizeText(query);
+      const filteredRecipes = normalizedQuery
+        ? receitasLivres.filter(receita => normalizeText(receita.nome).includes(normalizedQuery))
+        : receitasLivres;
+      anytimeCount.textContent = normalizedQuery
+        ? `${filteredRecipes.length} de ${receitasLivres.length}`
+        : `${receitasLivres.length} receitas`;
+
+      if (!filteredRecipes.length) {
         anytimeContent.className = "empty-state";
-        anytimeContent.innerHTML = '<div><span class="empty-icon" aria-hidden="true">🍽️</span><strong>Nenhuma receita adicionada</strong><p>As receitas livres ficarão disponíveis aqui para escolher quando quiser.</p></div>';
+        anytimeContent.innerHTML = '<div><span class="empty-icon" aria-hidden="true">🔎</span><strong>Nenhuma receita encontrada</strong><p>Tente buscar por outro nome.</p></div>';
         return;
       }
 
       anytimeContent.className = "anytime-grid";
       anytimeContent.replaceChildren();
-      receitasLivres.forEach(receita => {
+      filteredRecipes.forEach(receita => {
         const item = document.createElement(receita.link ? "a" : "article");
         item.className = "anytime-recipe";
         if (receita.link) item.href = receita.link;
@@ -676,7 +743,10 @@
       }
     });
 
+    recipeSearch.addEventListener("input", () => renderAnytimeRecipes(recipeSearch.value));
+
     renderCalendar();
+    populateRecipeSuggestions();
     renderAnytimeRecipes();
   </script>
 </body>
