@@ -271,22 +271,35 @@
     }
 
     .category-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
       padding: 0 2px;
     }
 
     .category-title {
-      display: flex;
+      margin: 0;
+      width: 100%;
+    }
+
+    .category-toggle {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
       align-items: center;
       gap: 9px;
-      margin: 0;
+      width: 100%;
+      min-height: 46px;
+      padding: 8px 10px;
+      border: 0;
+      border-radius: 14px;
+      background: transparent;
       color: var(--ink);
       font-size: .96rem;
+      font-weight: 800;
       letter-spacing: -.015em;
+      text-align: left;
+      cursor: pointer;
     }
+
+    .category-toggle:hover { background: rgba(23, 107, 77, 0.055); }
+    .category-toggle:focus-visible { outline: 3px solid rgba(23, 107, 77, 0.2); outline-offset: 2px; }
 
     .category-icon { font-size: 1.08rem; }
 
@@ -300,10 +313,20 @@
       font-weight: 850;
     }
 
+    .category-chevron {
+      color: var(--brand);
+      font-size: 1.05rem;
+      transition: transform 180ms ease;
+    }
+
+    .category-toggle[aria-expanded="false"] .category-chevron { transform: rotate(-90deg); }
+
     .category-items {
       display: grid;
       gap: 12px;
     }
+
+    .category-items[hidden] { display: none; }
 
     .item {
       position: relative;
@@ -633,6 +656,7 @@
         foto: "https://samsclub.vtexassets.com/arquivos/ids/160533-848-848/MiniBaguetePre-AssadaeCongeladaMembersMarkPacote940g.jpg?v=637469446915100000",
         nome: "Mini Baguete Member's Mark 940 g",
         quantidade: 1,
+        quantidadeSugerida: "1 unidade",
         preco: 29.98,
         mercado: "Sam's Club"
       },
@@ -1498,6 +1522,7 @@
     const storageKey = "lista-de-compras:itens-finalizados:v1";
     const quantityStorageKey = "lista-de-compras:quantidades:v1";
     const detailStorageKey = "lista-de-compras:produto-atual:v1";
+    const collapsedCategoryStorageKey = "lista-de-compras:categorias-recolhidas:v1";
     const productKey = product => `${product.mercado}::${product.nome}`;
 
     function loadSavedQuantities() {
@@ -1542,8 +1567,26 @@
       }
     }
 
+    function loadCollapsedCategories() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(collapsedCategoryStorageKey) || "[]");
+        return new Set(Array.isArray(saved) ? saved : []);
+      } catch {
+        return new Set();
+      }
+    }
+
+    function saveCollapsedCategories() {
+      try {
+        localStorage.setItem(collapsedCategoryStorageKey, JSON.stringify([...collapsedCategories]));
+      } catch {
+        /* O accordion continua funcionando durante a sessão. */
+      }
+    }
+
     loadSavedQuantities();
     const purchasedItems = loadPurchasedItems();
+    const collapsedCategories = loadCollapsedCategories();
     let activeMarket = "Todos";
     let currentView = "shopping";
 
@@ -1660,22 +1703,43 @@
         heading.className = "category-heading";
         const title = document.createElement("h3");
         title.className = "category-title";
-        title.id = `category-${categoryIndex}`;
+        const toggle = document.createElement("button");
+        toggle.className = "category-toggle";
+        toggle.type = "button";
+        toggle.id = `category-${categoryIndex}`;
         const icon = document.createElement("span");
         icon.className = "category-icon";
         icon.setAttribute("aria-hidden", "true");
         icon.textContent = category.icon;
         const titleText = document.createElement("span");
+        titleText.className = "category-label";
         titleText.textContent = category.name;
-        title.append(icon, titleText);
         const count = document.createElement("span");
         count.className = "category-count";
         count.textContent = `${categoryProducts.length} ${categoryProducts.length === 1 ? "item" : "itens"}`;
-        heading.append(title, count);
-        section.setAttribute("aria-labelledby", title.id);
+        const chevron = document.createElement("span");
+        chevron.className = "category-chevron";
+        chevron.setAttribute("aria-hidden", "true");
+        chevron.textContent = "▾";
+        toggle.append(icon, titleText, count, chevron);
+        title.append(toggle);
+        heading.append(title);
+        section.setAttribute("aria-labelledby", toggle.id);
 
         const categoryItems = document.createElement("div");
         categoryItems.className = "category-items";
+        categoryItems.id = `category-panel-${categoryIndex}`;
+        const isCollapsed = collapsedCategories.has(category.name);
+        categoryItems.hidden = isCollapsed;
+        toggle.setAttribute("aria-controls", categoryItems.id);
+        toggle.setAttribute("aria-expanded", String(!isCollapsed));
+        toggle.addEventListener("click", () => {
+          const shouldCollapse = toggle.getAttribute("aria-expanded") === "true";
+          toggle.setAttribute("aria-expanded", String(!shouldCollapse));
+          categoryItems.hidden = shouldCollapse;
+          shouldCollapse ? collapsedCategories.add(category.name) : collapsedCategories.delete(category.name);
+          saveCollapsedCategories();
+        });
 
         categoryProducts.forEach(({ product, index }) => {
         const isPurchased = purchasedItems.has(productKey(product));
