@@ -262,6 +262,46 @@
 
     .shopping-list {
       display: grid;
+      gap: 28px;
+    }
+
+    .category-section {
+      display: grid;
+      gap: 11px;
+    }
+
+    .category-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 2px;
+    }
+
+    .category-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0;
+      color: var(--ink);
+      font-size: .96rem;
+      letter-spacing: -.015em;
+    }
+
+    .category-icon { font-size: 1.08rem; }
+
+    .category-count {
+      flex: 0 0 auto;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: .7rem;
+      font-weight: 850;
+    }
+
+    .category-items {
+      display: grid;
       gap: 12px;
     }
 
@@ -485,7 +525,7 @@
       .app { padding: calc(54px + env(safe-area-inset-top)) max(28px, env(safe-area-inset-right)) calc(142px + env(safe-area-inset-bottom)) max(28px, env(safe-area-inset-left)); }
       header { align-items: flex-end; margin-bottom: 42px; }
       .market-filters { margin-right: 0; margin-left: 0; padding-right: 0; padding-left: 0; }
-      .shopping-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .category-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
       .item { grid-template-columns: 30px 92px minmax(0, 1fr) auto; grid-template-rows: auto; min-height: 128px; padding: 17px; }
       .checkbox { grid-column: 1; grid-row: 1; }
       .product-image { grid-column: 2; grid-row: 1; width: 92px; height: 92px; }
@@ -1158,10 +1198,84 @@
         quantidade: 1,
         preco: 15.99,
         mercado: "Oba"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/213662-848-848/Rolo-De-Massa-Folhada-1kg-Arosa---EAN-7896091272418.jpg?v=638870822240930000",
+        nome: "Massa Folhada Arosa Rolo 1 kg",
+        quantidade: 1,
+        preco: 49.98,
+        mercado: "Sam's Club",
+        categoria: "Padaria e Massas"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/214110-848-848/7896036090602---OLEO-GIRASSOL-LIZA-PET-900ML.jpg?v=638896567568800000",
+        nome: "Óleo de Girassol Liza 900 ml",
+        quantidade: 1,
+        preco: 10.98,
+        mercado: "Sam's Club",
+        categoria: "Mercearia e Conservas"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/156942-848-848/Manteiga-Extra-com-Sal-President-Gastronomique-200g.jpg?v=637430326949270000",
+        nome: "Manteiga Président com Sal 200 g",
+        quantidade: 1,
+        preco: 13.98,
+        mercado: "Sam's Club",
+        categoria: "Laticínios e Ovos"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/156955-848-848/Manteiga-Extra-sem-Sal-President-Gastronomique-200g.jpg?v=637430327024300000",
+        nome: "Manteiga Président Gastronomique sem Sal 200 g",
+        quantidade: 1,
+        preco: 13.98,
+        mercado: "Sam's Club",
+        categoria: "Laticínios e Ovos"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/208260-848-848/7891737011994.jpg.jpg?v=638747966956830000",
+        nome: "Ovos Grandes Vermelhos Member's Mark 30 Unidades",
+        quantidade: 1,
+        preco: 21.98,
+        mercado: "Sam's Club",
+        categoria: "Laticínios e Ovos"
+      },
+      {
+        foto: "https://samsclub.vtexassets.com/arquivos/ids/159725-848-848/AzeitonaPretaFatiadaMembersMark450g.jpg?v=637450158461670000",
+        nome: "Azeitona Preta Fatiada Member's Mark 450 g",
+        quantidade: 1,
+        preco: 40.98,
+        mercado: "Sam's Club",
+        categoria: "Mercearia e Conservas"
       }
     ];
 
     const mercados = ["Todos", "Mambo", "Sam's Club", "Oba", "Swift", "N/A"];
+    const categoryDefinitions = [
+      { name: "Hortifruti", icon: "🥬", terms: ["milho verde", "batata bolinha", "cebola", "pimentao", "pepino japones", "manga", "limao", "coco fresco", "caju fresco", "hortela", "morango", "mandioca", "frutas vermelhas", "alface", "tomate grande", "abobora", "salvia"] },
+      { name: "Carnes, Aves e Embutidos", icon: "🥩", terms: ["chicken", "linguica", "bife", "picanha", "copa-lombo", "entrecote", "chorizo", "salame", "carne moida", "coracao de frango", "bacon", "coxa e sobrecoxa", "carne seca"] },
+      { name: "Peixes e Frutos do Mar", icon: "🐟", terms: ["tilapia", "lula", "polvo"] },
+      { name: "Laticínios e Ovos", icon: "🥛", terms: ["creme de leite", "ovos", "ovo grande", "queijos em pedacos", "queijo coalho", "cream cheese", "manteiga"] },
+      { name: "Padaria e Massas", icon: "🥖", terms: ["baguete", "pao ", "macarrao", "tortilha", "massa folhada"] },
+      { name: "Mercearia e Conservas", icon: "🫙", terms: ["flocao", "panko", "polenta", "farinha", "oleo", "azeitona", "batata lay", "picles", "tomate pelado", "cha preto"] },
+      { name: "Temperos e Molhos", icon: "🧂", terms: ["molho", "maionese", "tempero", "ajinomoto", "acafrao", "extrato de tomate"] },
+      { name: "Doces e Sobremesas", icon: "🍫", terms: ["chocolate", "leite condensado", "baunilha", "nutella", "creme de avela", "calda", "doce de leite", "goiabada"] },
+      { name: "Bebidas", icon: "🥤", terms: ["red bull", "sprite", "suco", "triple sec", "cointreau", "cachaca"] },
+      { name: "Casa e Utensílios", icon: "🏠", terms: ["pote hermetico"] },
+      { name: "Outros", icon: "🧺", terms: [] }
+    ];
+
+    const normalizeProductName = value => value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+    function getProductCategory(product) {
+      if (product.categoria) return product.categoria;
+      const normalizedName = normalizeProductName(product.nome);
+      return categoryDefinitions.find(category =>
+        category.terms.some(term => normalizedName.includes(term))
+      )?.name || "Outros";
+    }
 
     const listElement = document.querySelector("#shoppingList");
     const filtersElement = document.querySelector("#marketFilters");
@@ -1324,7 +1438,41 @@
         return;
       }
 
-      visibleProducts.forEach(({ product, index }) => {
+      const groupedProducts = new Map();
+      visibleProducts.forEach(entry => {
+        const categoryName = getProductCategory(entry.product);
+        if (!groupedProducts.has(categoryName)) groupedProducts.set(categoryName, []);
+        groupedProducts.get(categoryName).push(entry);
+      });
+
+      categoryDefinitions.forEach((category, categoryIndex) => {
+        const categoryProducts = groupedProducts.get(category.name);
+        if (!categoryProducts?.length) return;
+
+        const section = document.createElement("section");
+        section.className = "category-section";
+        const heading = document.createElement("div");
+        heading.className = "category-heading";
+        const title = document.createElement("h3");
+        title.className = "category-title";
+        title.id = `category-${categoryIndex}`;
+        const icon = document.createElement("span");
+        icon.className = "category-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = category.icon;
+        const titleText = document.createElement("span");
+        titleText.textContent = category.name;
+        title.append(icon, titleText);
+        const count = document.createElement("span");
+        count.className = "category-count";
+        count.textContent = `${categoryProducts.length} ${categoryProducts.length === 1 ? "item" : "itens"}`;
+        heading.append(title, count);
+        section.setAttribute("aria-labelledby", title.id);
+
+        const categoryItems = document.createElement("div");
+        categoryItems.className = "category-items";
+
+        categoryProducts.forEach(({ product, index }) => {
         const isPurchased = purchasedItems.has(productKey(product));
         const card = document.createElement("article");
         card.className = `item${selectedItems.has(index) ? " selected" : ""}${isPurchased ? " purchased" : ""}`;
@@ -1441,7 +1589,11 @@
 
         refreshQuantity();
         card.append(checkbox, image, info, isPurchased ? returnButton : quantityControl);
-        listElement.append(card);
+          categoryItems.append(card);
+        });
+
+        section.append(heading, categoryItems);
+        listElement.append(section);
       });
     }
 
