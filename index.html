@@ -324,12 +324,13 @@
     }
 
     .item:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .item:focus-visible { outline: 3px solid rgba(23, 107, 77, 0.28); outline-offset: 3px; }
     .item.selected { border-color: #7dbb9f; background: linear-gradient(135deg, #fff, #f0f8f4); }
     .item.purchased {
       border-color: #d8dedb;
       background: #f0f2f0;
       box-shadow: none;
-      cursor: default;
+      cursor: pointer;
       opacity: 0.68;
     }
     .item.purchased:hover { transform: none; box-shadow: none; }
@@ -554,7 +555,7 @@
       <div>
         <p class="eyebrow"><span aria-hidden="true">●</span> Lista da semana</p>
         <h1>Compras GTA.</h1>
-        <p class="subtitle">Toque nos itens que vão para o carrinho.</p>
+        <p class="subtitle">Marque no círculo ou toque no card para ver os detalhes.</p>
       </div>
       <div class="header-actions">
         <a class="menu-page-button" href="cardapio.html">Cardápio</a>
@@ -1246,10 +1247,163 @@
         preco: 40.98,
         mercado: "Sam's Club",
         categoria: "Mercearia e Conservas"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/3a832399-9033-4e7e-b6dd-58989ad798fe.jpg?v=1757079649",
+        nome: "Mel Superbom 200 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 29.99,
+        mercado: "Marche",
+        categoria: "Doces e Sobremesas"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/1485007c-35b4-49b5-9a55-72b8e96d3caa.png?v=1764192743",
+        nome: "Mostarda Dijon St Marche 180 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 18.90,
+        mercado: "Marche",
+        categoria: "Temperos e Molhos"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/56c074fa-c2d7-4e5b-8ed9-9f5b9504b90c.png?v=1787844724",
+        nome: "Pimenta Vermelha Biquinho Viva Natural 150 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 14.19,
+        mercado: "Marche",
+        categoria: "Hortifruti"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/d179e280-7e7b-4218-81f5-35381053ab6e.jpg?v=1757012093",
+        nome: "Pimenta Dedo de Moça 120 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 9.99,
+        mercado: "Marche",
+        categoria: "Hortifruti"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/b03c9570-5126-4730-943e-13b5542fcf94.png?v=1757011464",
+        nome: "Alho Piasi Descascado 250 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 18.99,
+        mercado: "Marche",
+        categoria: "Hortifruti"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/bc7ae248-1bf1-473c-9d23-c96b93d3e906.png?v=1770652826",
+        nome: "Açafrão La Pastina em Estigma 4 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 29.39,
+        mercado: "Marche",
+        categoria: "Temperos e Molhos"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/b6f9a87e-7757-4d77-a2dc-e2e3b4b56573.png?v=1757018006",
+        nome: "Salsão Palito Viva Natural 200 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 11.79,
+        mercado: "Marche",
+        categoria: "Hortifruti"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/9ba1e460-ce30-4190-ad66-fe2b6679567d.jpg?v=1757017887",
+        nome: "Alho-Poró Viva Natural 250 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 27.99,
+        mercado: "Marche",
+        categoria: "Hortifruti"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/d73e6c7c-250d-4d9d-a645-af9f2a8facbd.png?v=1774558832",
+        nome: "Azeite Zetona para Finalizar 500 ml",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 69.90,
+        mercado: "Marche",
+        categoria: "Mercearia e Conservas"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/4ac9929e-c642-4f59-96e6-ef01f8223e81.png?v=1774558828",
+        nome: "Azeite Zetona para Cozinhar 500 ml",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 59.90,
+        mercado: "Marche",
+        categoria: "Mercearia e Conservas"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/790c6b4c-f6d8-4e49-93ec-3d5ae359149b_24765dcc-3f1c-4e47-9b10-f9b80b1b9184.jpg?v=1757013858",
+        nome: "Molho Cheddar Polenghi Club do Molho 220 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 18.90,
+        mercado: "Marche",
+        categoria: "Temperos e Molhos"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/7a03b376-268e-493c-96dc-8c6b8893f0d4.png?v=1757015881",
+        nome: "Tomate Holandês Viva Natural 500 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 26.99,
+        mercado: "Marche",
+        categoria: "Hortifruti"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/57344d92-aea7-45b9-a4dc-681f10a43f46_5af4595f-e315-4d94-b448-4185a3c164aa.png?v=1757020073",
+        nome: "Xarope Monin Mojito Mix 330 ml",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 37.99,
+        mercado: "Marche",
+        categoria: "Bebidas"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/b0730bba-aa16-4417-b363-8660f7a9151b_96e638d1-e902-416c-b056-42e1c40133ed.png?v=1757033950",
+        nome: "Massa para Tacos Taco Night 140 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 29.99,
+        mercado: "Marche",
+        categoria: "Padaria e Massas"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/624b9285-c433-4ab3-aa0b-ec8ed7106355_342633ff-50b5-48f2-8592-ee79d9b17c0b.png?v=1756929633",
+        nome: "Conhaque Espanhol Osborne 700 ml",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 121.79,
+        mercado: "Marche",
+        categoria: "Bebidas"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/ea07f78b-4d16-4a58-840e-65d0d2edc599.jpg?v=1757085496",
+        nome: "Mix de Pimentas Bombay 30 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 13.99,
+        mercado: "Marche",
+        categoria: "Temperos e Molhos"
+      },
+      {
+        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/73ad3e78-0dc8-4ad6-bde1-3f77719f6f5d.jpg?v=1757017026",
+        nome: "Cogumelo Hochibra Paris 200 g",
+        quantidade: 1,
+        quantidadeSugerida: "A definir",
+        preco: 16.99,
+        mercado: "Marche",
+        categoria: "Hortifruti"
       }
     ];
 
-    const mercados = ["Todos", "Mambo", "Sam's Club", "Oba", "Swift", "N/A"];
+    const mercados = ["Todos", "Mambo", "Sam's Club", "Oba", "Swift", "Marche", "N/A"];
     const categoryDefinitions = [
       { name: "Hortifruti", icon: "🥬", terms: ["milho verde", "batata bolinha", "cebola", "pimentao", "pepino japones", "manga", "limao", "coco fresco", "caju fresco", "hortela", "morango", "mandioca", "frutas vermelhas", "alface", "tomate grande", "abobora", "salvia"] },
       { name: "Carnes, Aves e Embutidos", icon: "🥩", terms: ["chicken", "linguica", "bife", "picanha", "copa-lombo", "entrecote", "chorizo", "salame", "carne moida", "coracao de frango", "bacon", "coxa e sobrecoxa", "carne seca"] },
@@ -1293,6 +1447,7 @@
     const selectedItems = new Set();
     const storageKey = "lista-de-compras:itens-finalizados:v1";
     const quantityStorageKey = "lista-de-compras:quantidades:v1";
+    const detailStorageKey = "lista-de-compras:produto-atual:v1";
     const productKey = product => `${product.mercado}::${product.nome}`;
 
     function loadSavedQuantities() {
@@ -1476,6 +1631,9 @@
         const isPurchased = purchasedItems.has(productKey(product));
         const card = document.createElement("article");
         card.className = `item${selectedItems.has(index) ? " selected" : ""}${isPurchased ? " purchased" : ""}`;
+        card.tabIndex = 0;
+        card.setAttribute("role", "link");
+        card.setAttribute("aria-label", `Abrir detalhes de ${product.nome}`);
 
         const image = document.createElement("img");
         image.className = "product-image";
@@ -1581,10 +1739,28 @@
           updateTotal();
         });
 
+        function openProductDetail() {
+          try {
+            localStorage.setItem(detailStorageKey, JSON.stringify({
+              ...product,
+              quantidadeSugerida: product.quantidadeSugerida || "A definir"
+            }));
+          } catch {
+            /* A navegação ainda funciona; a página de detalhe exibirá uma orientação. */
+          }
+          window.location.href = "produto.html";
+        }
+
         card.addEventListener("click", event => {
-          if (event.target.closest("button, input") || checkbox.disabled) return;
-          checkbox.checked = !checkbox.checked;
-          checkbox.dispatchEvent(new Event("change"));
+          if (event.target.closest("button, input")) return;
+          openProductDetail();
+        });
+
+        card.addEventListener("keydown", event => {
+          if ((event.key === "Enter" || event.key === " ") && !event.target.closest("button, input")) {
+            event.preventDefault();
+            openProductDetail();
+          }
         });
 
         refreshQuantity();
