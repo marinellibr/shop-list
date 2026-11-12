@@ -1,0 +1,28 @@
+{
+  "name": "Shop List",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "forwardPorts": [5500],
+  "portsAttributes": {
+    "5500": {
+      "label": "Prévia da lista de compras",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ritwickdey.LiveServer"
+      ],
+      "settings": {
+        "liveServer.settings.port": 5500,
+        "liveServer.settings.root": "/"
+      }
+    },
+    "codespaces": {
+      "openFiles": [
+        "index.html",
+        "README.md"
+      ]
+    }
+  }
+}
