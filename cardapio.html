@@ -8,6 +8,7 @@
   <title>Cardápio GTA</title>
   <style>
     :root {
+      --text-accent: #FFB458;
       --ink: #F8F0FF;
       --muted: #C9B8D8;
       --surface: #241536;
@@ -77,7 +78,7 @@
 
     .eyebrow {
       margin: 0 0 9px;
-      color: var(--brand);
+      color: var(--text-accent);
       font-size: .78rem;
       font-weight: 800;
       letter-spacing: .09em;
@@ -215,7 +216,7 @@
     }
 
     .date-chip span { display: block; margin-top: 2px; color: var(--ink); font-size: .9rem; }
-    .date-chip.active { border-color: var(--brand); background: var(--brand); color: #d7ebe3; }
+    .date-chip.active { border-color: var(--text-accent); background: var(--brand); color: #d7ebe3; }
     .date-chip.active span { color: #fff; }
 
     .day-content {
@@ -262,7 +263,7 @@
     }
 
     a.recipe-card:hover {
-      border-color: var(--brand);
+      border-color: var(--text-accent);
       transform: translateY(-2px);
       box-shadow: 0 12px 26px rgba(59, 20, 107, .09);
     }
@@ -270,7 +271,7 @@
     .recipe-link-hint {
       display: inline-block;
       margin-top: 8px;
-      color: var(--brand);
+      color: var(--text-accent);
       font-size: .73rem;
       font-weight: 850;
     }
@@ -328,7 +329,7 @@
     }
 
     .recipe-search input:focus {
-      border-color: var(--brand);
+      border-color: var(--text-accent);
       background: var(--surface);
       box-shadow: 0 0 0 4px rgba(31, 111, 87, .12);
     }
@@ -354,7 +355,7 @@
     }
 
     a.anytime-recipe:hover {
-      border-color: var(--brand);
+      border-color: var(--text-accent);
       transform: translateY(-2px);
       box-shadow: 0 12px 26px rgba(59, 20, 107, .09);
     }
@@ -364,7 +365,7 @@
     .anytime-recipe-hint {
       display: block;
       margin-top: 4px;
-      color: var(--brand);
+      color: var(--text-accent);
       font-size: .7rem;
       font-weight: 850;
     }
@@ -405,7 +406,7 @@
       background: radial-gradient(ellipse at 100% 0%, rgba(123, 32, 143, .16), transparent 32rem), var(--canvas);
     }
     .eyebrow, .market, .category-count, .category-chevron,
-    .recipe-link-hint, .anytime-recipe-arrow, .video-link { color: #F3C7F1; }
+    .recipe-link-hint, .anytime-recipe-arrow, .anytime-recipe-hint, .video-link { color: var(--text-accent); }
     .filter-pill.active, .select-all-button, .purchased-view-button.active,
     .menu-page-button, .date-chip.active {
       background: #7B208F;
@@ -423,7 +424,7 @@
     :is(button, a, input, .item):focus-visible,
     .item:focus-within { outline: 3px solid #FFB458; outline-offset: 3px; }
     input::placeholder { color: var(--muted); opacity: 1; }
-    a { color: #F3C7F1; }
+    a { color: var(--text-accent); }
 </style>
 </head>
 <body>

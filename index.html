@@ -8,6 +8,7 @@
   <title>Lista de Compras GTA</title>
   <style>
     :root {
+      --text-accent: #FFB458;
       --violet: #3B146B;
       --purple: #7B208F;
       --magenta: #C9349B;
@@ -93,7 +94,7 @@
       align-items: center;
       gap: 7px;
       margin: 0 0 9px;
-      color: var(--brand);
+      color: var(--text-accent);
       font-size: 0.78rem;
       font-weight: 800;
       letter-spacing: 0.09em;
@@ -124,7 +125,7 @@
       border: 1px solid var(--line);
       border-radius: 18px;
       background: var(--surface);
-      color: var(--brand);
+      color: var(--text-accent);
       font-weight: 800;
       box-shadow: 0 8px 24px rgba(59, 20, 107, 0.06);
     }
@@ -157,15 +158,15 @@
     }
 
     .menu-page-button {
-      border-color: var(--brand);
+      border-color: var(--text-accent);
       background: var(--brand);
       color: #fff;
       box-shadow: 0 8px 22px rgba(123, 32, 143, 0.18);
     }
 
-    .menu-page-button:hover { background: var(--brand-dark); }
+    .menu-page-button:hover { background: #9327A8; }
 
-    .purchased-view-button.active { border-color: var(--brand); background: var(--brand); color: #fff; }
+    .purchased-view-button.active { border-color: var(--text-accent); background: var(--brand); color: #fff; }
 
     .purchased-count {
       display: grid;
@@ -261,7 +262,7 @@
     .filter-pill:hover { transform: translateY(-1px); border-color: #C9349B; }
 
     .filter-pill.active {
-      border-color: var(--brand);
+      border-color: var(--text-accent);
       background: var(--brand);
       color: #fff;
       box-shadow: 0 7px 18px rgba(123, 32, 143, 0.2);
@@ -315,13 +316,13 @@
       padding: 5px 9px;
       border-radius: 999px;
       background: var(--brand-soft);
-      color: var(--brand);
+      color: var(--text-accent);
       font-size: .7rem;
       font-weight: 850;
     }
 
     .category-chevron {
-      color: var(--brand);
+      color: var(--text-accent);
       font-size: 1.05rem;
       transition: transform 180ms ease;
     }
@@ -384,7 +385,7 @@
       max-width: 100%;
       margin-bottom: 5px;
       overflow: hidden;
-      color: var(--brand);
+      color: var(--text-accent);
       font-size: 0.72rem;
       font-weight: 800;
       letter-spacing: 0.055em;
@@ -467,7 +468,7 @@
       font-weight: 800;
     }
 
-    .return-button:hover { border-color: var(--brand); background: var(--brand-soft); }
+    .return-button:hover { border-color: var(--text-accent); background: var(--brand-soft); }
 
     .checkbox {
       grid-column: 1;
@@ -484,7 +485,7 @@
     }
 
     .checkbox:checked {
-      border-color: var(--brand);
+      border-color: var(--text-accent);
       background: var(--brand);
     }
 
@@ -602,7 +603,7 @@
       background: radial-gradient(ellipse at 100% 0%, rgba(123, 32, 143, .16), transparent 32rem), var(--canvas);
     }
     .eyebrow, .market, .category-count, .category-chevron,
-    .recipe-link-hint, .anytime-recipe-arrow, .video-link { color: #F3C7F1; }
+    .recipe-link-hint, .anytime-recipe-arrow, .anytime-recipe-hint, .video-link { color: var(--text-accent); }
     .filter-pill.active, .select-all-button, .purchased-view-button.active,
     .menu-page-button, .date-chip.active {
       background: #7B208F;
@@ -620,7 +621,7 @@
     :is(button, a, input, .item):focus-visible,
     .item:focus-within { outline: 3px solid #FFB458; outline-offset: 3px; }
     input::placeholder { color: var(--muted); opacity: 1; }
-    a { color: #F3C7F1; }
+    a { color: var(--text-accent); }
 </style>
 </head>
 <body>

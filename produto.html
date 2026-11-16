@@ -8,6 +8,7 @@
   <title>Detalhes do Produto</title>
   <style>
     :root {
+      --text-accent: #FFB458;
       --brand: #7B208F;
       --brand-dark: #F3C7F1;
       --brand-soft: #352044;
@@ -97,7 +98,7 @@
       padding: 0 11px;
       border-radius: 999px;
       background: var(--brand-soft);
-      color: var(--brand);
+      color: var(--text-accent);
       font-size: .76rem;
       font-weight: 850;
       letter-spacing: .045em;
@@ -169,7 +170,7 @@
       background: radial-gradient(ellipse at 100% 0%, rgba(123, 32, 143, .16), transparent 32rem), var(--canvas);
     }
     .eyebrow, .market, .category-count, .category-chevron,
-    .recipe-link-hint, .anytime-recipe-arrow, .video-link { color: #F3C7F1; }
+    .recipe-link-hint, .anytime-recipe-arrow, .anytime-recipe-hint, .video-link { color: var(--text-accent); }
     .filter-pill.active, .select-all-button, .purchased-view-button.active,
     .menu-page-button, .date-chip.active {
       background: #7B208F;
@@ -187,7 +188,7 @@
     :is(button, a, input, .item):focus-visible,
     .item:focus-within { outline: 3px solid #FFB458; outline-offset: 3px; }
     input::placeholder { color: var(--muted); opacity: 1; }
-    a { color: #F3C7F1; }
+    a { color: var(--text-accent); }
 </style>
 </head>
 <body>

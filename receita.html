@@ -8,6 +8,7 @@
   <title>PF de Picanha com Farofa de Ovo · Receita</title>
   <style>
     :root {
+      --text-accent: #FFB458;
       --ink: #F8F0FF;
       --muted: #C9B8D8;
       --surface: #241536;
@@ -200,7 +201,7 @@
     .video-source {
       display: inline-flex;
       margin-top: 14px;
-      color: var(--brand);
+      color: var(--text-accent);
       font-size: .82rem;
       font-weight: 800;
       text-decoration: none;
@@ -219,7 +220,7 @@
       background: radial-gradient(ellipse at 100% 0%, rgba(123, 32, 143, .16), transparent 32rem), var(--canvas);
     }
     .eyebrow, .market, .category-count, .category-chevron,
-    .recipe-link-hint, .anytime-recipe-arrow, .video-link { color: #F3C7F1; }
+    .recipe-link-hint, .anytime-recipe-arrow, .anytime-recipe-hint, .video-link { color: var(--text-accent); }
     .filter-pill.active, .select-all-button, .purchased-view-button.active,
     .menu-page-button, .date-chip.active {
       background: #7B208F;
@@ -237,7 +238,7 @@
     :is(button, a, input, .item):focus-visible,
     .item:focus-within { outline: 3px solid #FFB458; outline-offset: 3px; }
     input::placeholder { color: var(--muted); opacity: 1; }
-    a { color: #F3C7F1; }
+    a { color: var(--text-accent); }
 </style>
 </head>
 <body>
