@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#f7f7f3">
+  <meta name="theme-color" content="#FFF8F5">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Cardápio GTA</title>
   <style>
     :root {
-      --ink: #18352d;
-      --muted: #6b7772;
+      --ink: #3B146B;
+      --muted: #766184;
       --surface: #fff;
-      --canvas: #f7f7f3;
-      --line: #dde3df;
-      --brand: #176b4d;
-      --brand-dark: #0d5038;
-      --brand-soft: #e4f3ec;
-      --accent: #f3be4b;
-      --shadow: 0 18px 45px rgba(24, 53, 45, .1);
+      --canvas: #FFF8F5;
+      --line: #EADDED;
+      --brand: #7B208F;
+      --brand-dark: #3B146B;
+      --brand-soft: #F7EAF7;
+      --accent: #FFB458;
+      --shadow: 0 18px 45px rgba(59, 20, 107, .1);
     }
 
     * { box-sizing: border-box; }
@@ -34,7 +34,7 @@
       min-width: 320px;
       min-height: 100vh;
       background:
-        radial-gradient(circle at 90% 0%, rgba(243, 190, 75, .18), transparent 26rem),
+        radial-gradient(circle at 90% 0%, rgba(255, 180, 88, .18), transparent 26rem),
         var(--canvas);
       color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -140,9 +140,9 @@
       place-items: center;
       min-height: 180px;
       padding: 28px;
-      border: 1px dashed #cbd6d0;
+      border: 1px dashed #D2B6DA;
       border-radius: 18px;
-      background: #fafbf9;
+      background: #FFF8F5;
       text-align: center;
     }
 
@@ -206,7 +206,7 @@
       padding: 9px 5px;
       border: 1px solid var(--line);
       border-radius: 13px;
-      background: #fafbf9;
+      background: #FFF8F5;
       color: var(--muted);
       cursor: pointer;
       font-size: .72rem;
@@ -231,7 +231,7 @@
       padding: 16px;
       border: 1px solid var(--line);
       border-radius: 17px;
-      background: #fafbf9;
+      background: #FFF8F5;
     }
 
     .recipe-card.has-image {
@@ -264,7 +264,7 @@
     a.recipe-card:hover {
       border-color: var(--brand);
       transform: translateY(-2px);
-      box-shadow: 0 12px 26px rgba(24, 53, 45, .09);
+      box-shadow: 0 12px 26px rgba(59, 20, 107, .09);
     }
 
     .recipe-link-hint {
@@ -320,7 +320,7 @@
       border: 1px solid var(--line);
       border-radius: 14px;
       outline: none;
-      background: #fafbf9;
+      background: #FFF8F5;
       color: var(--ink);
       font: inherit;
       font-size: .94rem;
@@ -341,7 +341,7 @@
       padding: 12px 14px;
       border: 1px solid var(--line);
       border-radius: 16px;
-      background: #fafbf9;
+      background: #FFF8F5;
       font-size: .92rem;
       font-weight: 750;
     }
@@ -356,7 +356,7 @@
     a.anytime-recipe:hover {
       border-color: var(--brand);
       transform: translateY(-2px);
-      box-shadow: 0 12px 26px rgba(24, 53, 45, .09);
+      box-shadow: 0 12px 26px rgba(59, 20, 107, .09);
     }
 
     .anytime-recipe-text { min-width: 0; }
@@ -376,7 +376,7 @@
       height: 9px;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 0 5px rgba(243, 190, 75, .18);
+      box-shadow: 0 0 0 5px rgba(255, 180, 88, .18);
     }
 
     .anytime-recipe.has-image::before { display: none; }

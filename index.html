@@ -3,22 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#f7f7f3">
+  <meta name="theme-color" content="#FFF8F5">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Lista de Compras GTA</title>
   <style>
     :root {
-      --ink: #18352d;
-      --muted: #6b7772;
+      --violet: #3B146B;
+      --purple: #7B208F;
+      --magenta: #C9349B;
+      --pink-coral: #F36A78;
+      --coral: #F87572;
+      --orange: #FF9B55;
+      --warm-yellow: #FFB458;
+      --ink: #3B146B;
+      --muted: #766184;
       --surface: #ffffff;
-      --canvas: #f7f7f3;
-      --line: #dde3df;
-      --brand: #176b4d;
-      --brand-dark: #0d5038;
-      --footer-green: #114132;
-      --brand-soft: #e4f3ec;
-      --accent: #f3be4b;
-      --shadow: 0 18px 45px rgba(24, 53, 45, 0.1);
+      --canvas: #FFF8F5;
+      --line: #EADDED;
+      --brand: #7B208F;
+      --brand-dark: #3B146B;
+      --footer-background: #3B146B;
+      --brand-soft: #F7EAF7;
+      --accent: #FFB458;
+      --shadow: 0 18px 45px rgba(59, 20, 107, 0.1);
       --radius: 22px;
     }
 
@@ -26,7 +33,7 @@
 
     html {
       min-height: 100%;
-      background: linear-gradient(to bottom, var(--canvas) 0 50%, var(--footer-green) 50% 100%);
+      background: linear-gradient(to bottom, var(--canvas) 0 50%, var(--footer-background) 50% 100%);
       color-scheme: light;
       touch-action: pan-y;
     }
@@ -36,7 +43,7 @@
       min-width: 320px;
       min-height: 100vh;
       background:
-        radial-gradient(circle at 90% 0%, rgba(243, 190, 75, 0.18), transparent 26rem),
+        radial-gradient(circle at 90% 0%, rgba(255, 180, 88, 0.18), transparent 26rem),
         var(--canvas);
       color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -62,7 +69,7 @@
     body::after {
       bottom: 0;
       height: env(safe-area-inset-bottom);
-      background: var(--footer-green);
+      background: var(--footer-background);
     }
 
     button, input { font: inherit; }
@@ -119,7 +126,7 @@
       background: rgba(255, 255, 255, 0.72);
       color: var(--brand);
       font-weight: 800;
-      box-shadow: 0 8px 24px rgba(24, 53, 45, 0.06);
+      box-shadow: 0 8px 24px rgba(59, 20, 107, 0.06);
     }
 
     .header-actions {
@@ -153,7 +160,7 @@
       border-color: var(--brand);
       background: var(--brand);
       color: #fff;
-      box-shadow: 0 8px 22px rgba(23, 107, 77, 0.18);
+      box-shadow: 0 8px 22px rgba(123, 32, 143, 0.18);
     }
 
     .menu-page-button:hover { background: var(--brand-dark); }
@@ -251,13 +258,13 @@
       transition: color 160ms ease, background 160ms ease, border-color 160ms ease, transform 160ms ease;
     }
 
-    .filter-pill:hover { transform: translateY(-1px); border-color: #91aa9f; }
+    .filter-pill:hover { transform: translateY(-1px); border-color: #C9349B; }
 
     .filter-pill.active {
       border-color: var(--brand);
       background: var(--brand);
       color: #fff;
-      box-shadow: 0 7px 18px rgba(23, 107, 77, 0.2);
+      box-shadow: 0 7px 18px rgba(123, 32, 143, 0.2);
     }
 
     .shopping-list {
@@ -298,8 +305,8 @@
       cursor: pointer;
     }
 
-    .category-toggle:hover { background: rgba(23, 107, 77, 0.055); }
-    .category-toggle:focus-visible { outline: 3px solid rgba(23, 107, 77, 0.2); outline-offset: 2px; }
+    .category-toggle:hover { background: rgba(123, 32, 143, 0.055); }
+    .category-toggle:focus-visible { outline: 3px solid rgba(123, 32, 143, 0.2); outline-offset: 2px; }
 
     .category-icon { font-size: 1.08rem; }
 
@@ -341,24 +348,24 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: var(--surface);
-      box-shadow: 0 8px 24px rgba(24, 53, 45, 0.055);
+      box-shadow: 0 8px 24px rgba(59, 20, 107, 0.055);
       cursor: pointer;
       transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease, background 180ms ease;
     }
 
     .item:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-    .item:focus-visible { outline: 3px solid rgba(23, 107, 77, 0.28); outline-offset: 3px; }
-    .item.selected { border-color: #7dbb9f; background: linear-gradient(135deg, #fff, #f0f8f4); }
+    .item:focus-visible { outline: 3px solid rgba(123, 32, 143, 0.28); outline-offset: 3px; }
+    .item.selected { border-color: #C9349B; background: linear-gradient(135deg, #fff, #F7EAF7); }
     .item.purchased {
-      border-color: #d8dedb;
-      background: #f0f2f0;
+      border-color: #EADDED;
+      background: #F6F0F6;
       box-shadow: none;
       cursor: pointer;
       opacity: 0.68;
     }
     .item.purchased:hover { transform: none; box-shadow: none; }
     .item.purchased .product-image { filter: grayscale(0.55); }
-    .item:focus-within { outline: 3px solid rgba(23, 107, 77, 0.17); outline-offset: 2px; }
+    .item:focus-within { outline: 3px solid rgba(123, 32, 143, 0.17); outline-offset: 2px; }
 
     .product-image {
       grid-column: 2;
@@ -451,7 +458,7 @@
       justify-self: end;
       min-height: 34px;
       padding: 0 12px;
-      border: 1px solid #b9c8c1;
+      border: 1px solid #D2B6DA;
       border-radius: 10px;
       background: #fff;
       color: var(--brand-dark);
@@ -469,7 +476,7 @@
       width: 26px;
       height: 26px;
       margin: 0;
-      border: 2px solid #abb8b2;
+      border: 2px solid #B69BC2;
       border-radius: 9px;
       background: #fff;
       cursor: pointer;
@@ -500,9 +507,9 @@
       left: 0;
       padding: 12px max(16px, env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
       border-top: 1px solid rgba(255,255,255,.13);
-      background: var(--footer-green);
+      background: var(--footer-background);
       color: #fff;
-      box-shadow: 0 -16px 36px rgba(24, 53, 45, 0.18);
+      box-shadow: 0 -16px 36px rgba(59, 20, 107, 0.18);
       backdrop-filter: blur(16px);
     }
 
@@ -517,9 +524,9 @@
       margin: 0 auto;
     }
 
-    .total-label { display: block; color: #c7dbd3; font-size: 0.76rem; font-weight: 700; }
+    .total-label { display: block; color: #EED9F4; font-size: 0.76rem; font-weight: 700; }
     .selected-summary { margin-top: 3px; font-size: 0.9rem; font-weight: 650; }
-    .total-value { color: #fff4d1; font-size: clamp(1.45rem, 7vw, 2rem); font-weight: 850; letter-spacing: -0.045em; white-space: nowrap; }
+    .total-value { color: #FFB458; font-size: clamp(1.45rem, 7vw, 2rem); font-weight: 850; letter-spacing: -0.045em; white-space: nowrap; }
 
     .checkout-button {
       grid-column: 1 / -1;
@@ -528,7 +535,7 @@
       border: 0;
       border-radius: 14px;
       background: var(--accent);
-      color: #263a32;
+      color: #3B146B;
       cursor: pointer;
       font-weight: 850;
       transition: filter 160ms ease, transform 160ms ease, opacity 160ms ease;
@@ -539,7 +546,7 @@
 
     .empty {
       padding: 40px 24px;
-      border: 1px dashed #b7c2bd;
+      border: 1px dashed #D2B6DA;
       border-radius: var(--radius);
       color: var(--muted);
       text-align: center;
@@ -570,6 +577,24 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
     }
+
+    /* Identidade violeta com detalhes em tons quentes. */
+    body {
+      background:
+        radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--pink-coral) 18%, transparent), transparent 32rem),
+        radial-gradient(ellipse at 0% 20%, color-mix(in srgb, var(--orange) 12%, transparent), transparent 28rem),
+        var(--canvas);
+    }
+    :is(button, a, input):focus-visible {
+      outline: 3px solid var(--magenta);
+      outline-offset: 3px;
+    }
+    :is(.panel, .product, .item.selected) { border-color: color-mix(in srgb, var(--purple) 22%, white); }
+    .category-toggle { border-left: 4px solid var(--coral); background: var(--brand-soft); }
+    .count-badge { background: linear-gradient(135deg, var(--orange), var(--warm-yellow)); color: var(--violet); border-color: transparent; }
+    .sticky-total { border-top: 3px solid var(--pink-coral); }
+    .checkout-button { background: linear-gradient(110deg, var(--orange), var(--warm-yellow)); }
+    .menu-page-button { background: linear-gradient(110deg, var(--purple), var(--magenta)); }
   </style>
 </head>
 <body>
@@ -629,27 +654,11 @@
     */
     const produtos = [
       {
-        foto: "https://samsclub.vtexassets.com/arquivos/ids/211596-848-848/EAN-7894904230648-CHICKEN-SUPREME-25KG-SEARA.jpg.jpg?v=638822394648700000",
-        nome: "Chicken Supreme Seara 2,5 kg",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 89.98,
-        mercado: "Sam's Club"
-      },
-      {
         foto: "https://samsclub.vtexassets.com/arquivos/ids/219319-848-848/9002490283056_1.jpg?v=638997885359930000",
         nome: "Pack com 4 latas Red Bull Zero Açúcar 250 ml",
         quantidade: 1,
         quantidadeSugerida: "1 pack",
         preco: 31.56,
-        mercado: "Sam's Club"
-      },
-      {
-        foto: "https://samsclub.vtexassets.com/arquivos/ids/172222-848-848/linguicapaioseara370g7894904966172.jpg?v=637811362687800000",
-        nome: "Linguiça Paio Seara 370 g",
-        quantidade: 1,
-        quantidadeSugerida: "2 unidades",
-        preco: 14.38,
         mercado: "Sam's Club"
       },
       {
@@ -666,14 +675,6 @@
         quantidade: 1,
         quantidadeSugerida: "1 unidade",
         preco: 23.98,
-        mercado: "Sam's Club"
-      },
-      {
-        foto: "https://samsclub.vtexassets.com/arquivos/ids/164097-848-848/batatabolinhababysuperbatatapacote1kg7898940128037.jpg?v=637575534513670000",
-        nome: "Batata Bolinha Baby 1 kg",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 4.98,
         mercado: "Sam's Club"
       },
       {
@@ -829,54 +830,6 @@
         mercado: "Mambo"
       },
       {
-        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/231442/259615.jpg.jpg?v=639271534415470000",
-        nome: "Bife Ancho Bassi — peça aprox. 1,3 kg",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 77.97,
-        mercado: "Mambo"
-      },
-      {
-        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/253245/25355.jpg?v=639185359984700000",
-        nome: "Picanha Bovina 1953 Friboi — peça aprox. 1,1 kg",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 109.98,
-        mercado: "Mambo"
-      },
-      {
-        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/234623/272419.jpg?v=638877680411670000",
-        nome: "Copa-Lombo Suíno Ancho — aprox. 500 g",
-        quantidade: 1,
-        quantidadeSugerida: "2 unidades",
-        preco: 16.99,
-        mercado: "Mambo"
-      },
-      {
-        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/231444/134931.jpg.jpg?v=638811934687900000",
-        nome: "Entrecôte Na Brasa Montana — peça aprox. 1,4 kg",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 78.37,
-        mercado: "Mambo"
-      },
-      {
-        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/231446/134927.jpg.jpg?v=639271541114000000",
-        nome: "Bife de Chorizo Na Brasa Montana — peça aprox. 1,5 kg",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 89.97,
-        mercado: "Mambo"
-      },
-      {
-        foto: "https://mambodelivery.vtexassets.com/arquivos/ids/180331/247365salame-pepperoni-haciendas-fat-100g.jpg?v=637883939051330000",
-        nome: "Salame Pepperoni Haciendas 100 g",
-        quantidade: 1,
-        quantidadeSugerida: "2 unidades",
-        preco: 19.98,
-        mercado: "Mambo"
-      },
-      {
         foto: "https://swiftbr.vteximg.com.br/arquivos/ids/209209/616653-aneis-de-lula_inn.jpg?v=638883746647400000",
         nome: "Anéis de Lula Swift 400 g",
         quantidade: 1,
@@ -914,22 +867,6 @@
         quantidade: 1,
         quantidadeSugerida: "2 unidades",
         preco: 16.90,
-        mercado: "Swift"
-      },
-      {
-        foto: "https://swiftbr.vteximg.com.br/arquivos/ids/213528/617723-carne-moida-suina_inn.jpg?v=639027168403100000",
-        nome: "Carne Moída Suína Swift 500 g",
-        quantidade: 1,
-        quantidadeSugerida: "2 unidades",
-        preco: 12.90,
-        mercado: "Swift"
-      },
-      {
-        foto: "https://swiftbr.vteximg.com.br/arquivos/ids/212869/616483-carne-moida-paleta_inn.jpg?v=639008914665130000",
-        nome: "Carne Moída de Paleta Swift 500 g",
-        quantidade: 1,
-        quantidadeSugerida: "2 unidades",
-        preco: 25.90,
         mercado: "Swift"
       },
       {
@@ -973,14 +910,6 @@
         mercado: "N/A"
       },
       {
-        foto: "https://images.tcdn.com.br/img/img_prod/560459/maionese_japonesa_kewpie_350g_1162_1_1ebc9af245fc229a28a2cb812758e313.jpg",
-        nome: "Maionese Kewpie",
-        quantidade: 1,
-        quantidadeSugerida: "2 unidades",
-        preco: 0,
-        mercado: "N/A"
-      },
-      {
         foto: "https://gbarbosa.vtexassets.com/arquivos/ids/264740/68310297bef318b6a0818671.jpg?v=638836391921430000",
         nome: "Queijo Coalho",
         quantidade: 1,
@@ -988,14 +917,7 @@
         preco: 0,
         mercado: "N/A"
       },
-      {
-        foto: "https://samsclub.vtexassets.com/arquivos/ids/192528-800-450?aspect=true&height=450&v=638315082654370000&width=800",
-        nome: "Coração de Frango",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 0,
-        mercado: "N/A"
-      },
+
             {
         foto: "",
         nome: "Triple Sec (Cointreau)",
@@ -1013,14 +935,6 @@
         mercado: "Sam's Club"
       },
       {
-        foto: "",
-        nome: "Ajinomoto",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 0,
-        mercado: "N/A"
-      },
-      {
         foto: "https://mambodelivery.vtexassets.com/arquivos/ids/177226/pao-sponge-egg-panco-250g-com-10-unidades.jpg?v=637883845803370000",
         nome: "Pão Sponge Egg Panco 250 g com 10 Unidades",
         quantidade: 1,
@@ -1035,14 +949,6 @@
         nome: "Pote Hermético",
         quantidade: 1,
         quantidadeSugerida: "2 unidades",
-        preco: 0,
-        mercado: "N/A"
-      },
-      {
-        foto: "https://www.frimesa.com.br/upload/image/subproduct/bacon-fatiado-resfriado-40041-286-19.png",
-        nome: "Bacon Fatiado",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
         preco: 0,
         mercado: "N/A"
       },
@@ -1093,14 +999,6 @@
         quantidadeSugerida: "1 unidade",
         preco: 44.48,
         mercado: "Sam's Club"
-      },
-      {
-        foto: "https://fortatacadista.vteximg.com.br/arquivos/ids/314686-800-800/7891527002775.jpg?v=638750644765270000",
-        nome: "Coxa e Sobrecoxa sem Osso",
-        quantidade: 1,
-        quantidadeSugerida: "2 unidades",
-        preco: 0,
-        mercado: "N/A"
       },
       {
         foto: "https://images.tcdn.com.br/img/img_prod/1294180/cachaca_artesanal_moendao_prata_18871886_2_dc5e68a2ed46e8b4d4be853284e4924b.jpg",
@@ -1242,15 +1140,6 @@
         categoria: "Hortifruti"
       },
       {
-        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/57344d92-aea7-45b9-a4dc-681f10a43f46_5af4595f-e315-4d94-b448-4185a3c164aa.png?v=1757020073",
-        nome: "Xarope Monin Mojito Mix 330 ml",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 37.99,
-        mercado: "Marche",
-        categoria: "Bebidas"
-      },
-      {
         foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/624b9285-c433-4ab3-aa0b-ec8ed7106355_342633ff-50b5-48f2-8592-ee79d9b17c0b.png?v=1756929633",
         nome: "Conhaque Espanhol Osborne 700 ml",
         quantidade: 1,
@@ -1278,24 +1167,6 @@
         categoria: "Padaria e Massas"
       },
       {
-        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/20047178_51245b17-1b7b-410c-b851-38a9dc72886c.png?v=1757002924",
-        nome: "Linguiça de Frango com Bacon Fininha 500 g",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 29.90,
-        mercado: "Marche",
-        categoria: "Carnes, Aves e Embutidos"
-      },
-      {
-        foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/d9314cb0-efe3-4078-8677-678c562af532_a5c6c372-c51e-4963-aebb-db0c840de6fd.jpg?v=1757002362",
-        nome: "Linguiça Prieto de Pernil Fininha 500 g",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 26.90,
-        mercado: "Marche",
-        categoria: "Carnes, Aves e Embutidos"
-      },
-      {
         foto: "https://cdn.shopify.com/s/files/1/0587/8487/4575/files/73ad3e78-0dc8-4ad6-bde1-3f77719f6f5d.jpg?v=1757017026",
         nome: "Cogumelo Hochibra Paris 200 g",
         quantidade: 1,
@@ -1305,15 +1176,6 @@
         categoria: "Hortifruti"
       },
       {
-        foto: "https://santaluzia.vtexassets.com/arquivos/ids/1008247/3302580.png?v=639277795640200000",
-        nome: "Xarope Limão Siciliano Easy Drinks 350 ml",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 30.30,
-        mercado: "Santa Luzia",
-        categoria: "Bebidas"
-      },
-      {
         foto: "https://santaluzia.vtexassets.com/arquivos/ids/989516/248339.jpg?v=638256007218400000",
         nome: "Feijão Roxão Casa Santa Luzia 500 g",
         quantidade: 1,
@@ -1321,15 +1183,6 @@
         preco: 14.90,
         mercado: "Santa Luzia",
         categoria: "Mercearia e Conservas"
-      },
-      {
-        foto: "https://santaluzia.vtexassets.com/arquivos/ids/989831/3164969.jpg?v=638267462647570000",
-        nome: "Xarope Florale Flor de Sabugueiro Monin Expérience 330 ml",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 40.00,
-        mercado: "Santa Luzia",
-        categoria: "Bebidas"
       },
       {
         foto: "https://santaluzia.vtexassets.com/arquivos/ids/971599/528269.jpg?v=637385491944430000",
@@ -1372,16 +1225,6 @@
         link: "https://www.santaluzia.com.br/licor-absinto-habitue-720ml--1044281/p"
       },
       {
-        foto: "https://santaluzia.vtexassets.com/arquivos/ids/975993/1257099.jpg?v=637629284119530000",
-        nome: "Chocolate Nº811 Callebaut 400 g",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 96.00,
-        mercado: "Santa Luzia",
-        categoria: "Doces e Sobremesas",
-        link: "https://www.santaluzia.com.br/chocolate-n811-callebaut-400g--1257099/p"
-      },
-      {
         foto: "https://santaluzia.vtexassets.com/arquivos/ids/999194/3192938.png?v=638717801268770000",
         nome: "Cachaça Maria Augusta Tinta Prata 700 ml",
         quantidade: 1,
@@ -1390,16 +1233,6 @@
         mercado: "Santa Luzia",
         categoria: "Bebidas",
         link: "https://www.santaluzia.com.br/cachaca-maria-augusta-tinta-prata---700ml--3192938/p"
-      },
-      {
-        foto: "https://santaluzia.vtexassets.com/arquivos/ids/1007406/3294501.png?v=639171411301700000",
-        nome: "Guanciale Papada Curada Gran Nero 250 g",
-        quantidade: 1,
-        quantidadeSugerida: "1 unidade",
-        preco: 58.00,
-        mercado: "Santa Luzia",
-        categoria: "Carnes, Aves e Embutidos",
-        link: "https://www.santaluzia.com.br/guanciale-papada-curada-dessecada-de-suino-gran-nero--250g-3294501/p"
       },
       {
         foto: "https://santaluzia.vtexassets.com/arquivos/ids/999681/3239233.png?v=638772121849100000",
@@ -1663,7 +1496,7 @@
 
     const fallbackImage = (name) => {
       const initials = name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase() || "?";
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><rect width="240" height="240" rx="42" fill="#e4f3ec"/><circle cx="190" cy="48" r="44" fill="#f3be4b" opacity=".7"/><text x="120" y="139" text-anchor="middle" font-family="Arial,sans-serif" font-size="66" font-weight="700" fill="#176b4d">${initials}</text></svg>`;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><rect width="240" height="240" rx="42" fill="#F7EAF7"/><circle cx="190" cy="48" r="44" fill="#FFB458" opacity=".7"/><text x="120" y="139" text-anchor="middle" font-family="Arial,sans-serif" font-size="66" font-weight="700" fill="#7B208F">${initials}</text></svg>`;
       return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
     };
 
