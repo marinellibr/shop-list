@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#FFF8F5">
+  <meta name="theme-color" content="#160D24">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Lista de Compras GTA</title>
   <style>
@@ -15,17 +15,17 @@
       --coral: #F87572;
       --orange: #FF9B55;
       --warm-yellow: #FFB458;
-      --ink: #3B146B;
-      --muted: #766184;
-      --surface: #ffffff;
-      --canvas: #FFF8F5;
-      --line: #EADDED;
+      --ink: #F8F0FF;
+      --muted: #C9B8D8;
+      --surface: #241536;
+      --canvas: #160D24;
+      --line: #604575;
       --brand: #7B208F;
-      --brand-dark: #3B146B;
-      --footer-background: #3B146B;
-      --brand-soft: #F7EAF7;
+      --brand-dark: #F3C7F1;
+      --footer-background: #211030;
+      --brand-soft: #352044;
       --accent: #FFB458;
-      --shadow: 0 18px 45px rgba(59, 20, 107, 0.1);
+      --shadow: 0 18px 45px rgba(0, 0, 0, .28);
       --radius: 22px;
     }
 
@@ -34,7 +34,7 @@
     html {
       min-height: 100%;
       background: linear-gradient(to bottom, var(--canvas) 0 50%, var(--footer-background) 50% 100%);
-      color-scheme: light;
+      color-scheme: dark;
       touch-action: pan-y;
     }
 
@@ -123,7 +123,7 @@
       padding: 0 13px;
       border: 1px solid var(--line);
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.72);
+      background: var(--surface);
       color: var(--brand);
       font-weight: 800;
       box-shadow: 0 8px 24px rgba(59, 20, 107, 0.06);
@@ -147,7 +147,7 @@
       padding: 0 12px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.82);
+      background: var(--surface);
       color: var(--brand-dark);
       cursor: pointer;
       font-size: 0.78rem;
@@ -179,7 +179,7 @@
       font-size: 0.72rem;
     }
 
-    .purchased-view-button.active .purchased-count { background: rgba(255, 255, 255, 0.18); color: #fff; }
+    .purchased-view-button.active .purchased-count { background: var(--surface); color: #fff; }
 
     .toolbar {
       display: flex;
@@ -249,7 +249,7 @@
       padding: 10px 15px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.82);
+      background: var(--surface);
       color: var(--ink);
       cursor: pointer;
       font-size: 0.84rem;
@@ -355,13 +355,13 @@
 
     .item:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
     .item:focus-visible { outline: 3px solid rgba(123, 32, 143, 0.28); outline-offset: 3px; }
-    .item.selected { border-color: #C9349B; background: linear-gradient(135deg, #fff, #F7EAF7); }
+    .item.selected { border-color: #C9349B; background: linear-gradient(135deg, #352044, #3B146B); }
     .item.purchased {
-      border-color: #EADDED;
-      background: #F6F0F6;
+      border-color: var(--line);
+      background: var(--surface);
       box-shadow: none;
       cursor: pointer;
-      opacity: 0.68;
+      opacity: 1;
     }
     .item.purchased:hover { transform: none; box-shadow: none; }
     .item.purchased .product-image { filter: grayscale(0.55); }
@@ -460,7 +460,7 @@
       padding: 0 12px;
       border: 1px solid #D2B6DA;
       border-radius: 10px;
-      background: #fff;
+      background: var(--surface);
       color: var(--brand-dark);
       cursor: pointer;
       font-size: 0.75rem;
@@ -478,7 +478,7 @@
       margin: 0;
       border: 2px solid #B69BC2;
       border-radius: 9px;
-      background: #fff;
+      background: var(--surface);
       cursor: pointer;
       transition: background 150ms ease, border-color 150ms ease;
     }
@@ -546,7 +546,7 @@
 
     .empty {
       padding: 40px 24px;
-      border: 1px dashed #D2B6DA;
+      border: 1px dashed var(--line);
       border-radius: var(--radius);
       color: var(--muted);
       text-align: center;
@@ -595,7 +595,33 @@
     .sticky-total { border-top: 3px solid var(--pink-coral); }
     .checkout-button { background: linear-gradient(110deg, var(--orange), var(--warm-yellow)); }
     .menu-page-button { background: linear-gradient(110deg, var(--purple), var(--magenta)); }
-  </style>
+  
+    /* Tema escuro: texto claro e ações com contraste explícito. */
+    html { color-scheme: dark; }
+    body {
+      background: radial-gradient(ellipse at 100% 0%, rgba(123, 32, 143, .16), transparent 32rem), var(--canvas);
+    }
+    .eyebrow, .market, .category-count, .category-chevron,
+    .recipe-link-hint, .anytime-recipe-arrow, .video-link { color: #F3C7F1; }
+    .filter-pill.active, .select-all-button, .purchased-view-button.active,
+    .menu-page-button, .date-chip.active {
+      background: #7B208F;
+      color: #FFFFFF;
+      border-color: #C9349B;
+    }
+    .date-chip.active span { color: #FFFFFF; }
+    .checkout-button, .count-badge { color: #261033; }
+    .checkbox { background: var(--canvas); border-color: #B69BC2; }
+    .checkbox:checked { background: #7B208F; border-color: #F3C7F1; }
+    .item.selected { border-color: #F36A78; }
+    .item.purchased { background: #21172C; opacity: 1; }
+    .item.purchased .product-name { color: var(--muted); }
+    .category-toggle:hover, .back:hover, .back-link:hover { background: #432654; }
+    :is(button, a, input, .item):focus-visible,
+    .item:focus-within { outline: 3px solid #FFB458; outline-offset: 3px; }
+    input::placeholder { color: var(--muted); opacity: 1; }
+    a { color: #F3C7F1; }
+</style>
 </head>
 <body>
   <main class="app">

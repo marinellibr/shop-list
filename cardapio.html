@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#FFF8F5">
+  <meta name="theme-color" content="#160D24">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Cardápio GTA</title>
   <style>
     :root {
-      --ink: #3B146B;
-      --muted: #766184;
-      --surface: #fff;
-      --canvas: #FFF8F5;
-      --line: #EADDED;
+      --ink: #F8F0FF;
+      --muted: #C9B8D8;
+      --surface: #241536;
+      --canvas: #160D24;
+      --line: #604575;
       --brand: #7B208F;
-      --brand-dark: #3B146B;
-      --brand-soft: #F7EAF7;
+      --brand-dark: #F3C7F1;
+      --brand-soft: #352044;
       --accent: #FFB458;
-      --shadow: 0 18px 45px rgba(59, 20, 107, .1);
+      --shadow: 0 18px 45px rgba(0, 0, 0, .28);
     }
 
     * { box-sizing: border-box; }
@@ -25,7 +25,7 @@
     html {
       min-height: 100%;
       background: var(--canvas);
-      color-scheme: light;
+      color-scheme: dark;
       touch-action: pan-y;
     }
 
@@ -66,7 +66,7 @@
       padding: 0 14px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, .82);
+      background: var(--surface);
       color: var(--brand-dark);
       font-size: .8rem;
       font-weight: 800;
@@ -108,7 +108,7 @@
       padding: 22px;
       border: 1px solid var(--line);
       border-radius: 24px;
-      background: rgba(255, 255, 255, .9);
+      background: var(--surface);
       box-shadow: var(--shadow);
     }
 
@@ -140,9 +140,9 @@
       place-items: center;
       min-height: 180px;
       padding: 28px;
-      border: 1px dashed #D2B6DA;
+      border: 1px dashed var(--line);
       border-radius: 18px;
-      background: #FFF8F5;
+      background: var(--surface);
       text-align: center;
     }
 
@@ -206,7 +206,7 @@
       padding: 9px 5px;
       border: 1px solid var(--line);
       border-radius: 13px;
-      background: #FFF8F5;
+      background: var(--surface);
       color: var(--muted);
       cursor: pointer;
       font-size: .72rem;
@@ -231,7 +231,7 @@
       padding: 16px;
       border: 1px solid var(--line);
       border-radius: 17px;
-      background: #FFF8F5;
+      background: var(--surface);
     }
 
     .recipe-card.has-image {
@@ -320,7 +320,7 @@
       border: 1px solid var(--line);
       border-radius: 14px;
       outline: none;
-      background: #FFF8F5;
+      background: var(--surface);
       color: var(--ink);
       font: inherit;
       font-size: .94rem;
@@ -329,7 +329,7 @@
 
     .recipe-search input:focus {
       border-color: var(--brand);
-      background: #fff;
+      background: var(--surface);
       box-shadow: 0 0 0 4px rgba(31, 111, 87, .12);
     }
 
@@ -341,7 +341,7 @@
       padding: 12px 14px;
       border: 1px solid var(--line);
       border-radius: 16px;
-      background: #FFF8F5;
+      background: var(--surface);
       font-size: .92rem;
       font-weight: 750;
     }
@@ -398,7 +398,33 @@
       .calendar-arrow { width: 52px; height: 52px; }
       .anytime-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-  </style>
+  
+    /* Tema escuro: texto claro e ações com contraste explícito. */
+    html { color-scheme: dark; }
+    body {
+      background: radial-gradient(ellipse at 100% 0%, rgba(123, 32, 143, .16), transparent 32rem), var(--canvas);
+    }
+    .eyebrow, .market, .category-count, .category-chevron,
+    .recipe-link-hint, .anytime-recipe-arrow, .video-link { color: #F3C7F1; }
+    .filter-pill.active, .select-all-button, .purchased-view-button.active,
+    .menu-page-button, .date-chip.active {
+      background: #7B208F;
+      color: #FFFFFF;
+      border-color: #C9349B;
+    }
+    .date-chip.active span { color: #FFFFFF; }
+    .checkout-button, .count-badge { color: #261033; }
+    .checkbox { background: var(--canvas); border-color: #B69BC2; }
+    .checkbox:checked { background: #7B208F; border-color: #F3C7F1; }
+    .item.selected { border-color: #F36A78; }
+    .item.purchased { background: #21172C; opacity: 1; }
+    .item.purchased .product-name { color: var(--muted); }
+    .category-toggle:hover, .back:hover, .back-link:hover { background: #432654; }
+    :is(button, a, input, .item):focus-visible,
+    .item:focus-within { outline: 3px solid #FFB458; outline-offset: 3px; }
+    input::placeholder { color: var(--muted); opacity: 1; }
+    a { color: #F3C7F1; }
+</style>
 </head>
 <body>
   <main class="app">
